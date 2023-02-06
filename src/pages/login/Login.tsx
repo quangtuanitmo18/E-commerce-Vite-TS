@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import Input from 'src/components/input'
 import { getRules } from 'src/utils/rules'
 
 interface FormData {
@@ -23,25 +24,22 @@ const Login = () => {
           <div className='rounded bg-white p-5 lg:col-span-2 lg:col-start-4'>
             <p className=' text-xl text-black lg:text-2xl'>Đăng Nhập</p>
             <form action=''>
-              <div className='mt-6'>
-                <input
-                  className='w-full rounded border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow'
-                  type='email'
-                  placeholder='Email'
-                  {...register('email', rules.email)}
-                />
-                {errors?.email && <div className='h-4 text-sm text-red-500'>{errors?.email.message}</div>}
-              </div>
-              <div className='mt-2'>
-                <input
-                  className='w-full rounded border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow'
-                  type='password'
-                  placeholder='Password'
-                  autoComplete='on'
-                  {...register('password', rules.password)}
-                />
-                {errors?.password && <div className='h-4 text-sm text-red-500'>{errors?.password.message}</div>}
-              </div>
+              <Input
+                type='email'
+                placeholder='Email'
+                register={register}
+                rules={rules.email}
+                errorMessage={errors?.email ? errors?.email.message : ''}
+                wrapperClassName='mt-6'
+              ></Input>
+              <Input
+                type='password'
+                placeholder='Password'
+                register={register}
+                rules={rules.password}
+                errorMessage={errors?.password ? errors?.password.message : ''}
+                wrapperClassName='mt-2'
+              ></Input>
 
               <button className='w-full rounded bg-primary p-4 text-white'>Đăng Nhập</button>
             </form>

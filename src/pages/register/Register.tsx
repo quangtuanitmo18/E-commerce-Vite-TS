@@ -2,6 +2,7 @@
 import { useForm } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form/dist/types'
 import { Link } from 'react-router-dom'
+import Input from 'src/components/input'
 import { getRules } from 'src/utils/rules'
 interface FormData {
   email: string
@@ -26,43 +27,37 @@ const Register = () => {
 
   return (
     <div className='h-full bg-primary'>
-      <div className='container py-20'>
+      <div className='container max-w-7xl py-20'>
         <div className='grid grid-cols-1 lg:grid-cols-5'>
           <div className='rounded bg-white p-5 lg:col-span-2 lg:col-start-4'>
             <p className=' text-xl text-black lg:text-2xl'>Đăng Ký</p>
             <form action='' onSubmit={handleSubmit(handleRegister)}>
-              <div className='mt-6'>
-                <input
-                  className='w-full rounded border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow'
-                  type='email'
-                  placeholder='Email'
-                  {...register('email', rules.email)}
-                />
-                <div className='h-4 text-sm text-red-500'>{errors?.email && errors?.email.message}</div>
-              </div>
-              <div className='mt-2'>
-                <input
-                  className='w-full rounded border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow'
-                  type='password'
-                  placeholder='Password'
-                  autoComplete='on'
-                  {...register('password', rules.password)}
-                />
-                <div className='h-4 text-sm text-red-500'>{errors?.password && errors?.password.message}</div>
-              </div>
-              <div className='mt-2'>
-                <input
-                  className='w-full rounded border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow'
-                  type='password'
-                  placeholder='Confirm Password'
-                  autoComplete='on'
-                  {...register('confirm_password', rules.confirm_passoword)}
-                />
+              <Input
+                type='email'
+                placeholder='Email'
+                register={register}
+                rules={rules.email}
+                errorMessage={errors?.email ? errors?.email.message : ''}
+                wrapperClassName='mt-6'
+              ></Input>
 
-                <div className='h-4 text-sm text-red-500'>
-                  {errors?.confirm_password && errors?.confirm_password.message}
-                </div>
-              </div>
+              <Input
+                type='password'
+                placeholder='Password'
+                register={register}
+                rules={rules.password}
+                errorMessage={errors?.password ? errors?.password.message : ''}
+                wrapperClassName='mt-2'
+              ></Input>
+              <Input
+                type='password'
+                placeholder='Confirm Password'
+                register={register}
+                rules={rules.confirm_passoword}
+                errorMessage={errors?.confirm_password ? errors?.confirm_password.message : ''}
+                wrapperClassName='mt-2'
+              ></Input>
+
               <button className=' mt-4 w-full rounded bg-primary p-4 text-white'>Đăng Ký</button>
               <div className='mt-4 text-center text-sm text-gray-500'>
                 Bạn đã có tài khoản?{' '}

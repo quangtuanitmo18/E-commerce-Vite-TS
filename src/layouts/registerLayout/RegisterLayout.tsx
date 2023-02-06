@@ -1,16 +1,19 @@
 import React from 'react'
+import Footer from 'src/components/footer'
+import HeaderRegister from 'src/components/headerRegister'
 
 interface Props {
   children?: React.ReactNode
 }
 
-const RegisterLyaout = ({ children }: Props) => {
+const RegisterLayout = ({ children }: Props) => {
   return (
-    <div>
-      RegisterLayout
+    <>
+      <HeaderRegister></HeaderRegister>
       {children}
-    </div>
+      <Footer></Footer>
+    </>
   )
 }
 
-export default RegisterLyaout
+export default RegisterLayout

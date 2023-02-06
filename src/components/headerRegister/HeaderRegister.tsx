@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 const HeaderRegister = () => {
   return (
     <header>
-      <div className='mx-auto max-w-7xl px-4 py-5'>
+      <div className='container py-5'>
         <nav className='flex items-end'>
           <Link to={'/'}>
             <svg

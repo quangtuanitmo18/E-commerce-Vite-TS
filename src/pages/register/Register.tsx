@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form/dist/types'
 import { Link } from 'react-router-dom'
-import { getRules, rules } from 'src/utils/rules'
+import { getRules } from 'src/utils/rules'
 interface FormData {
   email: string
   password: string
@@ -22,11 +22,11 @@ const Register = () => {
   const handleRegister: SubmitHandler<FormData> = (data: any) => {
     console.log(data)
   }
-  console.log(errors)
+  // console.log(errors)
 
   return (
     <div className='h-full bg-primary'>
-      <div className='mx-auto max-w-7xl px-4 py-20'>
+      <div className='container py-20'>
         <div className='grid grid-cols-1 lg:grid-cols-5'>
           <div className='rounded bg-white p-5 lg:col-span-2 lg:col-start-4'>
             <p className=' text-xl text-black lg:text-2xl'>Đăng Ký</p>

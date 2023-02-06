@@ -18,7 +18,7 @@ const Login = () => {
 
   return (
     <div className='h-full bg-primary'>
-      <div className='mx-auto max-w-7xl px-4 py-20'>
+      <div className='container py-20'>
         <div className='grid grid-cols-1 lg:grid-cols-5'>
           <div className='rounded bg-white p-5 lg:col-span-2 lg:col-start-4'>
             <p className=' text-xl text-black lg:text-2xl'>Đăng Nhập</p>

@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className='text-center'>
+    <footer className='py-12 text-center'>
       <div className='grid grid-cols-3'>
         <p className='col-span-1'>© 2023 Shopee. Tất cả các quyền được bảo lưu.</p>
         <p className='col-span-2'>

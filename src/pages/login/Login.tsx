@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import { getRules } from 'src/utils/rules'
 
 interface FormData {
   email: string
@@ -9,9 +10,11 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    getValues,
     watch,
     formState: { errors }
   } = useForm<FormData>()
+  const rules = getRules(getValues)
 
   return (
     <div className='h-full bg-primary'>
@@ -25,7 +28,7 @@ const Login = () => {
                   className='w-full rounded border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow'
                   type='email'
                   placeholder='Email'
-                  {...register('email')}
+                  {...register('email', rules.email)}
                 />
                 {errors?.email && <div className='h-4 text-sm text-red-500'>{errors?.email.message}</div>}
               </div>
@@ -34,7 +37,8 @@ const Login = () => {
                   className='w-full rounded border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow'
                   type='password'
                   placeholder='Password'
-                  {...register('password')}
+                  autoComplete='on'
+                  {...register('password', rules.password)}
                 />
                 {errors?.password && <div className='h-4 text-sm text-red-500'>{errors?.password.message}</div>}
               </div>

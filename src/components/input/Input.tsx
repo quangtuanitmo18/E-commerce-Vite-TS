@@ -7,17 +7,17 @@ interface Props {
   clasName?: string
   placeholder: string
   errorMessage?: string
-  rules?: RegisterOptions
+  name: string
 }
 
-const Input = ({ type, register, wrapperClassName, clasName, placeholder, errorMessage, rules, ...rest }: Props) => {
+const Input = ({ type, register, wrapperClassName, clasName, placeholder, errorMessage, name, ...rest }: Props) => {
   return (
     <div className={`${wrapperClassName}`}>
       <input
         className={`w-full rounded border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow ${clasName}`}
         type={type}
         placeholder={placeholder}
-        {...register('email', rules)}
+        {...register(name)}
       />
       <div className='h-4 text-sm text-red-500'>{errorMessage}</div>
     </div>

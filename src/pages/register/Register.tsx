@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom'
 import Input from 'src/components/input'
 import { RegisterSchema, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
-
+import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { registerAccount } from 'src/apis/auth.api'
+import { omit } from 'lodash'
 // interface FormData {
 //   email: string
 //   password: string
@@ -19,11 +21,22 @@ const Register = () => {
     handleSubmit,
     watch,
     getValues,
-    formState: { errors }
+    formState: { errors, isValid }
   } = useForm<FormData>({ resolver: yupResolver(schema) })
-
-  const handleRegister: SubmitHandler<FormData> = (data: any) => {
-    console.log(data)
+  const registerAccountMutation = useMutation({
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => registerAccount(body)
+  })
+  const handleRegister: SubmitHandler<FormData> = (data: FormData) => {
+    if (isValid) {
+      // console.log(data)
+      const body = omit(data, ['confirm_password'])
+      registerAccountMutation.mutate(body, {
+        onSuccess(data, variables, context) {
+          console.log(data)
+        }
+      })
+      // console.log(body)
+    }
   }
   // console.log(errors)
 

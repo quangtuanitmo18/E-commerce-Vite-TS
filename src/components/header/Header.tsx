@@ -74,7 +74,53 @@ const Header = () => {
           </button>
         </div>
         <div className='col-span-1 flex cursor-pointer items-center justify-center'>
-          <Cart className='text-white '></Cart>
+          <Popover renderPopover={<Cart className='text-white '></Cart>}>
+            <div className='relative max-w-xl rounded-sm border border-gray-200 bg-white p-3 shadow-md'>
+              <p className='text-gray-500'>Sản phẩm mới thêm</p>
+              <div className='mt-4 flex flex-col gap-3 overflow-hidden'>
+                <div className='flex gap-3'>
+                  <img
+                    src='https://source.unsplash.com/random'
+                    className='h-10 w-10 flex-shrink-0 object-cover'
+                    alt=''
+                  />
+                  <p className='truncate'>Tee basic ss1 CREWZ áo thun tay lỡ unisex Local Brand - AO_THUN_DVR (V427)</p>
+                  <span className='text-primary'>599.000</span>
+                </div>
+                <div className='flex gap-3'>
+                  <img
+                    src='https://source.unsplash.com/random'
+                    className='h-10 w-10 flex-shrink-0   object-cover'
+                    alt=''
+                  />
+                  <p className='truncate'>Tee basic ss1 CREWZ áo thun tay lỡ unisex Local Brand - AO_THUN_DVR (V427)</p>
+                  <span className='text-primary'>599.000</span>
+                </div>
+                <div className='flex gap-3'>
+                  <img
+                    src='https://source.unsplash.com/random'
+                    className='h-10 w-10 flex-shrink-0  object-cover'
+                    alt=''
+                  />
+                  <p className='truncate'>Tee basic ss1 CREWZ áo thun tay lỡ unisex Local Brand - AO_THUN_DVR (V427)</p>
+                  <span className='text-primary'>599.000</span>
+                </div>
+                <div className='flex gap-3'>
+                  <img
+                    src='https://source.unsplash.com/random'
+                    className='h-10 w-10 flex-shrink-0 object-cover'
+                    alt=''
+                  />
+                  <p className='truncate'>Tee basic ss1 CREWZ áo thun tay lỡ unisex Local Brand - AO_THUN_DVR (V427)</p>
+                  <span className='text-primary'>599.000</span>
+                </div>
+              </div>
+              <div className='flex items-center justify-between'>
+                <p className='text-gray-500'>Thêm vào giỏ hàng</p>
+                <button className='rounded-sm bg-primary px-4 py-2 text-white'> Xem giỏ hàng</button>
+              </div>
+            </div>
+          </Popover>
         </div>
       </div>
     </header>

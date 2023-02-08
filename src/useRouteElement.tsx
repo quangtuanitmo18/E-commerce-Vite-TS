@@ -1,4 +1,5 @@
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
+import { useApp } from './components/contexts/app.context'
 import MainLayout from './layouts/mainLayout'
 import RegisterLayout from './layouts/registerLayout'
 import Login from './pages/login'
@@ -6,12 +7,12 @@ import ProductList from './pages/productList'
 import Register from './pages/register'
 
 function ProtectedRoute() {
-  const isAuthentication = true
-  return isAuthentication ? <Outlet /> : <Navigate to='/login' />
+  const { isAuthenticated } = useApp()
+  return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
 }
 function RejectedRoute() {
-  const isAuthentication = true
-  return !isAuthentication ? <Outlet /> : <Navigate to='/' />
+  const { isAuthenticated } = useApp()
+  return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
 }
 
 const useRouteElement = () => {

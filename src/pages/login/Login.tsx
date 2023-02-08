@@ -6,6 +6,8 @@ import { useMutation } from '@tanstack/react-query'
 import { login } from 'src/apis/auth.api'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/types/utils.type'
+import { useApp } from 'src/components/contexts/app.context'
+import { useNavigate } from 'react-router-dom'
 
 // interface FormData {
 //   email: string
@@ -23,6 +25,8 @@ const Login = () => {
     formState: { errors, isValid }
   } = useForm<FormData>({ resolver: yupResolver(loginSchema) })
 
+  const { isAuthenticated, setIsAuthenticated } = useApp()
+  const navigate = useNavigate()
   const loginMutation = useMutation({
     mutationFn: (body: FormData) => login(body)
   })
@@ -32,6 +36,8 @@ const Login = () => {
       loginMutation.mutate(data, {
         onSuccess(data, variables, context) {
           // console.log(data)
+          setIsAuthenticated(true)
+          navigate('/')
         },
         onError: (error) => {
           if (isAxiosUnprocessableEntityError<ErrorResponseApi<FormData>>(error)) {

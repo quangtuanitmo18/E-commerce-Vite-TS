@@ -1,9 +1,12 @@
 import axios, { type AxiosInstance, AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 import { HttpStatusCode } from 'src/constants/httpStatusCode.enum'
+import { AuthResponse } from 'src/types/auth.type'
+import { clearAccessTokenFromLS, setAccessTokenToLS } from './auth'
 
 class Http {
   instance: AxiosInstance
+  private accessToken: string | undefined
   constructor() {
     this.instance = axios.create({
       baseURL: 'https://api-ecom.duthanhduoc.com/',
@@ -12,8 +15,29 @@ class Http {
         'Content-Type': 'application/json'
       }
     })
+    this.instance.interceptors.request.use(
+      (config) => {
+        if (this.accessToken && config.headers) {
+          config.headers.Authorization = this.accessToken
+        }
+        return config
+      },
+      function (error) {
+        // Do something with request error
+        return Promise.reject(error)
+      }
+    )
     this.instance.interceptors.response.use(
-      function (response) {
+      (response) => {
+        // console.log(response)
+        const { url } = response.config
+        if (url === '/login' || url === '/register') {
+          this.accessToken = (response.data as AuthResponse).data.access_token
+          setAccessTokenToLS(this.accessToken)
+        } else if (url === '/logout') {
+          this.accessToken = ''
+          clearAccessTokenFromLS()
+        }
         return response
       },
       function (error: AxiosError) {

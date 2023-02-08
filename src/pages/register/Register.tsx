@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { useForm } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form/dist/types'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Input from 'src/components/input'
 import { RegisterSchema, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -10,6 +10,7 @@ import { registerAccount } from 'src/apis/auth.api'
 import { omit } from 'lodash'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi, SuccessResponseApi } from 'src/types/utils.type'
+import { useApp } from 'src/components/contexts/app.context'
 // interface FormData {
 //   email: string
 //   password: string
@@ -26,6 +27,9 @@ const Register = () => {
     setError,
     formState: { errors, isValid }
   } = useForm<FormData>({ resolver: yupResolver(schema) })
+
+  const { isAuthenticated, setIsAuthenticated } = useApp()
+  const navigate = useNavigate()
   const registerAccountMutation = useMutation({
     mutationFn: (body: Omit<FormData, 'confirm_password'>) => registerAccount(body)
   })
@@ -35,7 +39,8 @@ const Register = () => {
       const body = omit(data, ['confirm_password'])
       registerAccountMutation.mutate(body, {
         onSuccess(data, variables, context) {
-          console.log(data)
+          setIsAuthenticated(true)
+          navigate('/')
         },
         onError: (error) => {
           if (isAxiosUnprocessableEntityError<ErrorResponseApi<Omit<FormData, 'confirm_password'>>>(error)) {

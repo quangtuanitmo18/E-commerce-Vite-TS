@@ -4,8 +4,21 @@ import { useRef, useState } from 'react'
 import { Logo, Search, Cart } from '../icon'
 import { motion, AnimatePresence } from 'framer-motion'
 import Popover from '../popover'
+import { useMutation } from '@tanstack/react-query'
+import { logout } from 'src/apis/auth.api'
+import { useApp } from '../contexts/app.context'
+import { Link } from 'react-router-dom'
 
 const Header = () => {
+  const { isAuthenticated, setIsAuthenticated } = useApp()
+  // console.log(isAuthenticated)
+  const LogoutMutation = useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      setIsAuthenticated(false)
+    }
+  })
+
   return (
     <header className='bg-primary'>
       <div className='container flex justify-end gap-4  p-5 text-white'>
@@ -46,22 +59,29 @@ const Header = () => {
             </div>
           </div>
         </Popover>
-
-        <Popover
-          renderPopover={
-            <div className='flex cursor-pointer items-center gap-2'>
-              <img src='https://source.unsplash.com/random' className='h-5 w-5 rounded-full object-cover' alt='' />
-              <span>NguyenTuan</span>
+        {isAuthenticated ? (
+          <Popover
+            renderPopover={
+              <div className='flex cursor-pointer items-center gap-2'>
+                <img src='https://source.unsplash.com/random' className='h-5 w-5 rounded-full object-cover' alt='' />
+                <span>NguyenTuan</span>
+              </div>
+            }
+          >
+            <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
+              <div className='flex flex-col gap-2 px-3 py-2'>
+                <button className='py-2 px-3 hover:text-primary'>Profile</button>
+                <button className='py-2 px-3 hover:text-primary' onClick={() => LogoutMutation.mutate()}>
+                  Đăng Xuất
+                </button>
+              </div>
             </div>
-          }
-        >
-          <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
-            <div className='flex flex-col gap-2 px-3 py-2'>
-              <button className='py-2 px-3 hover:text-primary'>Profile</button>
-              <button className='py-2 px-3 hover:text-primary'>Đăng Xuất</button>
-            </div>
-          </div>
-        </Popover>
+          </Popover>
+        ) : (
+          <>
+            <Link to='/login'>Đăng Nhập </Link> | <Link to='/register'>Đăng Ký</Link>
+          </>
+        )}
       </div>
       <div className='container grid grid-cols-12 gap-4 bg-primary p-5'>
         <div className='col-span-2'>

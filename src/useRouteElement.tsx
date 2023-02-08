@@ -1,4 +1,5 @@
 import { useRoutes } from 'react-router-dom'
+import MainLayout from './layouts/mainLayout'
 import RegisterLayout from './layouts/registerLayout'
 import Login from './pages/login'
 import ProductList from './pages/productList'
@@ -8,7 +9,11 @@ const useRouteElement = () => {
   const routeElements = useRoutes([
     {
       path: '/',
-      element: <ProductList />
+      element: (
+        <MainLayout>
+          <ProductList />
+        </MainLayout>
+      )
       // children: [
       //   {
       //     path: 'messages',

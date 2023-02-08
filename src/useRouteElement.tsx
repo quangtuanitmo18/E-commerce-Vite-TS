@@ -1,42 +1,65 @@
-import { useRoutes } from 'react-router-dom'
+import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import MainLayout from './layouts/mainLayout'
 import RegisterLayout from './layouts/registerLayout'
 import Login from './pages/login'
 import ProductList from './pages/productList'
 import Register from './pages/register'
 
+function ProtectedRoute() {
+  const isAuthentication = true
+  return isAuthentication ? <Outlet /> : <Navigate to='/login' />
+}
+function RejectedRoute() {
+  const isAuthentication = true
+  return !isAuthentication ? <Outlet /> : <Navigate to='/' />
+}
+
 const useRouteElement = () => {
   const routeElements = useRoutes([
     {
       path: '/',
+      index: true,
       element: (
         <MainLayout>
           <ProductList />
         </MainLayout>
       )
-      // children: [
-      //   {
-      //     path: 'messages',
-      //     element: <DashboardMessages />
-      //   },
-      //   { path: 'tasks', element: <DashboardTasks /> }
-      // ]
     },
     {
-      path: '/login',
-      element: (
-        <RegisterLayout>
-          <Login />
-        </RegisterLayout>
-      )
+      path: '',
+      element: <ProtectedRoute />,
+      children: [
+        {
+          path: '/profile',
+          element: (
+            <MainLayout>
+              <ProductList />
+            </MainLayout>
+          )
+        }
+      ]
     },
     {
-      path: '/register',
-      element: (
-        <RegisterLayout>
-          <Register></Register>
-        </RegisterLayout>
-      )
+      path: '',
+      element: <RejectedRoute />,
+      children: [
+        {
+          path: '/login',
+          element: (
+            <RegisterLayout>
+              <Login />
+            </RegisterLayout>
+          )
+        },
+        {
+          path: '/register',
+          element: (
+            <RegisterLayout>
+              <Register></Register>
+            </RegisterLayout>
+          )
+        }
+      ]
     }
   ])
 

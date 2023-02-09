@@ -1,13 +1,10 @@
-import { FloatingPortal } from '@floating-ui/react'
-import { arrow, offset, shift, useFloating } from '@floating-ui/react-dom'
-import { useRef, useState } from 'react'
 import { Logo, Search, Cart } from '../icon'
-import { motion, AnimatePresence } from 'framer-motion'
 import Popover from '../popover'
 import { useMutation } from '@tanstack/react-query'
 import { logout } from 'src/apis/auth.api'
-import { useApp } from '../contexts/app.context'
+import { useApp } from '../../contexts/app.context'
 import { Link } from 'react-router-dom'
+import path from 'src/constants/path'
 
 const Header = () => {
   const { isAuthenticated, setIsAuthenticated } = useApp()
@@ -79,7 +76,7 @@ const Header = () => {
           </Popover>
         ) : (
           <>
-            <Link to='/login'>Đăng Nhập </Link> | <Link to='/register'>Đăng Ký</Link>
+            <Link to={path.login}>Đăng Nhập </Link> | <Link to={path.register}>Đăng Ký</Link>
           </>
         )}
       </div>

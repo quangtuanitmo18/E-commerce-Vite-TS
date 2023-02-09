@@ -6,7 +6,7 @@ import App from './App'
 import './styles/index.scss'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { AppProvider } from './components/contexts/app.context'
+import { AppProvider } from './contexts/app.context'
 
 const queryClient = new QueryClient({
   defaultOptions: {

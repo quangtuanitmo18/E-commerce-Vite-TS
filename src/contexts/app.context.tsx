@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react'
-import { getAccessTokenFromLS } from 'src/utils/auth'
+import { getAccessTokenFromLS } from 'src/utils/app'
 
 interface AppContextInterface {
   isAuthenticated: boolean

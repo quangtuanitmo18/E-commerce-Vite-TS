@@ -1,5 +1,6 @@
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
-import { useApp } from './components/contexts/app.context'
+import path from './constants/path'
+import { useApp } from './contexts/app.context'
 import MainLayout from './layouts/mainLayout'
 import RegisterLayout from './layouts/registerLayout'
 import Login from './pages/login'
@@ -8,17 +9,17 @@ import Register from './pages/register'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useApp()
-  return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
+  return isAuthenticated ? <Outlet /> : <Navigate to={path.login} />
 }
 function RejectedRoute() {
   const { isAuthenticated } = useApp()
-  return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
+  return !isAuthenticated ? <Outlet /> : <Navigate to={path.home} />
 }
 
 const useRouteElement = () => {
   const routeElements = useRoutes([
     {
-      path: '/',
+      path: path.home,
       index: true,
       element: (
         <MainLayout>
@@ -31,7 +32,7 @@ const useRouteElement = () => {
       element: <ProtectedRoute />,
       children: [
         {
-          path: '/profile',
+          path: path.profile,
           element: (
             <MainLayout>
               <ProductList />
@@ -45,7 +46,7 @@ const useRouteElement = () => {
       element: <RejectedRoute />,
       children: [
         {
-          path: '/login',
+          path: path.login,
           element: (
             <RegisterLayout>
               <Login />
@@ -53,7 +54,7 @@ const useRouteElement = () => {
           )
         },
         {
-          path: '/register',
+          path: path.register,
           element: (
             <RegisterLayout>
               <Register></Register>

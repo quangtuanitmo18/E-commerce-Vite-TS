@@ -10,7 +10,9 @@ import { registerAccount } from 'src/apis/auth.api'
 import { omit } from 'lodash'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi, SuccessResponseApi } from 'src/types/utils.type'
-import { useApp } from 'src/components/contexts/app.context'
+import { useApp } from 'src/contexts/app.context'
+import Button from 'src/components/button'
+import path from 'src/constants/path'
 // interface FormData {
 //   email: string
 //   password: string
@@ -95,10 +97,16 @@ const Register = () => {
                 name='confirm_password'
               ></Input>
 
-              <button className=' mt-4 w-full rounded bg-primary p-4 text-white'>Đăng Ký</button>
+              <Button
+                type='submit'
+                isLoading={registerAccountMutation.isLoading}
+                disabled={registerAccountMutation.isLoading}
+              >
+                Đăng Ký
+              </Button>
               <div className='mt-4 text-center text-sm text-gray-500'>
                 Bạn đã có tài khoản?{' '}
-                <Link className='text-primary' to='/login'>
+                <Link className='text-primary' to={path.login}>
                   Đăng nhập
                 </Link>
               </div>

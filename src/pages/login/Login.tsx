@@ -6,8 +6,9 @@ import { useMutation } from '@tanstack/react-query'
 import { login } from 'src/apis/auth.api'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/types/utils.type'
-import { useApp } from 'src/components/contexts/app.context'
+import { useApp } from 'src/contexts/app.context'
 import { useNavigate } from 'react-router-dom'
+import Button from 'src/components/button'
 
 // interface FormData {
 //   email: string
@@ -82,9 +83,9 @@ const Login = () => {
                 name='password'
               ></Input>
 
-              <button type='submit' className='mt-6 w-full rounded bg-primary p-4 text-white'>
+              <Button type='submit' isLoading={loginMutation.isLoading} disabled={loginMutation.isLoading}>
                 Đăng Nhập
-              </button>
+              </Button>
             </form>
           </div>
         </div>

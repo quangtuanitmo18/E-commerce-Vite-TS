@@ -1,4 +1,5 @@
 import AsideFilter from './asideFilter'
+import ProductItem from './productItem'
 import SortProductList from './sortProductList'
 
 const ProductList = () => {
@@ -11,6 +12,13 @@ const ProductList = () => {
           </div>
           <div className='col-span-9'>
             <SortProductList></SortProductList>
+            <div className='grid grid-cols-2 gap-2 p-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+              {Array(20)
+                .fill(0)
+                .map((item, index) => (
+                  <ProductItem key={index}></ProductItem>
+                ))}
+            </div>
           </div>
         </div>
       </div>

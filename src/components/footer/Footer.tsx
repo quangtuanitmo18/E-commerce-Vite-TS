@@ -8,8 +8,8 @@ const Footer = () => {
           Chile Poland
         </p>
       </div>
-      <div className='mt-10'>
-        <p>
+      <div className='container mt-10'>
+        <p className='mt-2'>
           Địa chỉ: Tầng 4-5-6, Tòa nhà Capital Place, số 29 đường Liễu Giai, Phường Ngọc Khánh, Quận Ba Đình, Thành phố
           Hà Nội, Việt Nam. Tổng đài hỗ trợ: 19001221 - Email: cskh@hotro.shopee.vn
         </p>

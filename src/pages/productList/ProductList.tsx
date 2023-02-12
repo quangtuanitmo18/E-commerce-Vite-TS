@@ -4,6 +4,7 @@ import ProductItem from './productItem'
 import SortProductList from './sortProductList'
 import { useQuery } from '@tanstack/react-query'
 import { productApi } from 'src/apis/product.api'
+import Pagination from 'src/components/pagination'
 
 const ProductList = () => {
   const queryParam = useQueryParam()
@@ -15,7 +16,7 @@ const ProductList = () => {
       return productApi.getproducts(queryParam)
     }
   })
-  console.log(data)
+  // console.log(data)
 
   return (
     <div className='bg-gray-grayF5'>
@@ -32,6 +33,7 @@ const ProductList = () => {
                   <ProductItem key={product._id} product={product}></ProductItem>
                 ))}
             </div>
+            <Pagination></Pagination>
           </div>
         </div>
       </div>

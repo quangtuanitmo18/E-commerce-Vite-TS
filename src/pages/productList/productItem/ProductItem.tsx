@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import ProductRating from 'src/components/productRatting'
 import { Product as productType } from 'src/types/product.type'
 import { formatCurrency, formatNumberToSocialStyle } from 'src/utils/utils'
 
@@ -22,32 +23,7 @@ const ProductItem = ({ product }: Props) => {
           {formatCurrency(product.price)}
         </div>
         <div className='mb-3 flex items-center gap-2 text-sm'>
-          <div className='relative'>
-            <div className='z-1 absolute top-0 left-0 h-full w-[50%] overflow-hidden'>
-              <svg
-                enableBackground='new 0 0 15 15'
-                viewBox='0 0 15 15'
-                x={0}
-                y={0}
-                className='relative h-3 w-3 fill-yellow-400'
-              >
-                <polygon
-                  points='7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeMiterlimit={10}
-                />
-              </svg>
-            </div>
-            <svg enableBackground='new 0 0 15 15' viewBox='0 0 15 15' x={0} y={0} className='h-3 w-3 fill-gray-400'>
-              <polygon
-                points='7.5 .8 9.7 5.4 14.5 5.9 10.7 9.1 11.8 14.2 7.5 11.6 3.2 14.2 4.3 9.1 .5 5.9 5.3 5.4'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeMiterlimit={10}
-              />
-            </svg>
-          </div>
+          <ProductRating rating={product.rating}></ProductRating>
           <span className=''>Đã bán {formatNumberToSocialStyle(product.sold)}</span>
         </div>
         <div className='text-sm text-gray-400'>Hà Nội</div>

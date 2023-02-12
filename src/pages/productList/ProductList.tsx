@@ -7,7 +7,7 @@ import { productApi } from 'src/apis/product.api'
 
 const ProductList = () => {
   const queryParam = useQueryParam()
-  console.log(queryParam)
+  // console.log(queryParam)
   // console.log('dasdas(d')
   const { data } = useQuery({
     queryKey: ['products', queryParam],
@@ -15,7 +15,7 @@ const ProductList = () => {
       return productApi.getproducts(queryParam)
     }
   })
-  // console.log(data)
+  console.log(data)
 
   return (
     <div className='bg-gray-grayF5'>
@@ -27,10 +27,9 @@ const ProductList = () => {
           <div className='col-span-9'>
             <SortProductList></SortProductList>
             <div className='grid grid-cols-2 gap-2 p-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-              {Array(20)
-                .fill(0)
-                .map((item, index) => (
-                  <ProductItem key={index}></ProductItem>
+              {data &&
+                data.data.data.products.map((product) => (
+                  <ProductItem key={product._id} product={product}></ProductItem>
                 ))}
             </div>
           </div>

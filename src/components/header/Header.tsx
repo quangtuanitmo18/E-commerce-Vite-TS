@@ -85,7 +85,7 @@ const Header = () => {
       </div>
       <div className='container grid grid-cols-12 gap-4 bg-primary p-5'>
         <div className='col-span-2'>
-          <Logo className='fill-white'></Logo>
+          <Logo className='!fill-white'></Logo>
         </div>
         <div className='col-span-9 flex rounded-sm bg-white p-1'>
           <input className='flex-1 outline-none' type='text' placeholder='Tìm kiếm sản phẩm' />

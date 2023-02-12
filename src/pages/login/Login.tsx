@@ -9,6 +9,7 @@ import { ErrorResponseApi } from 'src/types/utils.type'
 import { useApp } from 'src/contexts/app.context'
 import { useNavigate } from 'react-router-dom'
 import Button from 'src/components/button'
+import { setProfileToLS } from 'src/utils/app'
 
 // interface FormData {
 //   email: string
@@ -38,6 +39,7 @@ const Login = () => {
         onSuccess(data, variables, context) {
           // console.log(data)
           setIsAuthenticated(true)
+          setProfileToLS(data.data.data.user)
           navigate('/')
         },
         onError: (error) => {

@@ -6,13 +6,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export default function Button(props: ButtonProps) {
-  const { isLoading, disabled, children, ...rest } = props
+  const { isLoading, disabled, className, children, ...rest } = props
 
   return (
     <button
       className={`mt-6 flex h-[48px] w-full items-center justify-center rounded bg-primary p-3 text-white ${
         isLoading ? 'cursor-not-allowed' : ''
-      }`}
+      } ${className}`}
       disabled={disabled}
       {...rest}
     >

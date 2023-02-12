@@ -13,6 +13,7 @@ import { ErrorResponseApi, SuccessResponseApi } from 'src/types/utils.type'
 import { useApp } from 'src/contexts/app.context'
 import Button from 'src/components/button'
 import path from 'src/constants/path'
+import { setProfileToLS } from 'src/utils/app'
 // interface FormData {
 //   email: string
 //   password: string
@@ -42,6 +43,7 @@ const Register = () => {
       registerAccountMutation.mutate(body, {
         onSuccess(data, variables, context) {
           setIsAuthenticated(true)
+          setProfileToLS(data.data.data.user)
           navigate('/')
         },
         onError: (error) => {

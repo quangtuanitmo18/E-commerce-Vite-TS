@@ -15,7 +15,8 @@ module.exports = {
           light: '#C4C4C4',
           dark: '#292D32',
           light6B: '#6b6b6b',
-          darkF3: '#f3edff'
+          darkF3: '#f3edff',
+          grayF5: '#F5F5F5'
         },
         red: {
           dark: '#820005',

@@ -5,14 +5,17 @@ import { logout } from 'src/apis/auth.api'
 import { useApp } from '../../contexts/app.context'
 import { Link } from 'react-router-dom'
 import path from 'src/constants/path'
+import { clearLS, setProfileToLS } from 'src/utils/app'
 
 const Header = () => {
-  const { isAuthenticated, setIsAuthenticated } = useApp()
+  const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useApp()
   // console.log(isAuthenticated)
+  console.log(profile)
   const LogoutMutation = useMutation({
     mutationFn: logout,
     onSuccess: () => {
       setIsAuthenticated(false)
+      setProfile(null)
     }
   })
 
@@ -61,7 +64,7 @@ const Header = () => {
             renderPopover={
               <div className='flex cursor-pointer items-center gap-2'>
                 <img src='https://source.unsplash.com/random' className='h-5 w-5 rounded-full object-cover' alt='' />
-                <span>NguyenTuan</span>
+                <span>{profile?.email}</span>
               </div>
             }
           >

@@ -8,11 +8,13 @@ import ProductList from './pages/productList'
 import Register from './pages/register'
 
 function ProtectedRoute() {
-  const { isAuthenticated } = useApp()
+  // const { isAuthenticated } = useApp()
+  const isAuthenticated = true
   return isAuthenticated ? <Outlet /> : <Navigate to={path.login} />
 }
 function RejectedRoute() {
-  const { isAuthenticated } = useApp()
+  // const { isAuthenticated } = useApp()
+  const isAuthenticated = false
   return !isAuthenticated ? <Outlet /> : <Navigate to={path.home} />
 }
 

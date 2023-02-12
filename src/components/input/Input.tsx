@@ -1,16 +1,16 @@
-import { FieldErrors, RegisterOptions, UseFormRegister } from 'react-hook-form'
+import { InputHTMLAttributes } from 'react'
+import { UseFormRegister } from 'react-hook-form'
 
-interface Props {
-  type: React.HTMLInputTypeAttribute
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
   register: UseFormRegister<any>
   wrapperClassName?: string
   clasName?: string
-  placeholder: string
   errorMessage?: string
   name: string
 }
 
-const Input = ({ type, register, wrapperClassName, clasName, placeholder, errorMessage, name, ...rest }: Props) => {
+const Input = (props: Props) => {
+  const { type, register, wrapperClassName, clasName, placeholder, errorMessage, name, ...rest } = props
   return (
     <div className={`${wrapperClassName}`}>
       <input
@@ -18,6 +18,7 @@ const Input = ({ type, register, wrapperClassName, clasName, placeholder, errorM
         type={type}
         placeholder={placeholder}
         {...register(name)}
+        {...rest}
       />
       <div className='h-4 text-sm text-red-500'>{errorMessage}</div>
     </div>

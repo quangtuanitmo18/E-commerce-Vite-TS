@@ -6,7 +6,6 @@ import Input from 'src/components/input'
 import { RegisterSchema, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { registerAccount } from 'src/apis/auth.api'
 import { omit } from 'lodash'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi, SuccessResponseApi } from 'src/types/utils.type'
@@ -14,6 +13,7 @@ import { useApp } from 'src/contexts/app.context'
 import Button from 'src/components/button'
 import path from 'src/constants/path'
 import { setProfileToLS } from 'src/utils/app'
+import { authApi } from 'src/apis/auth.api'
 // interface FormData {
 //   email: string
 //   password: string
@@ -34,7 +34,7 @@ const Register = () => {
   const { isAuthenticated, setIsAuthenticated } = useApp()
   const navigate = useNavigate()
   const registerAccountMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => registerAccount(body)
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => authApi.registerAccount(body)
   })
   const handleRegister: SubmitHandler<FormData> = (data: FormData) => {
     if (isValid) {

@@ -3,13 +3,13 @@ import Input from 'src/components/input'
 import { loginSchema, LoginSchema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
-import { login } from 'src/apis/auth.api'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/types/utils.type'
 import { useApp } from 'src/contexts/app.context'
 import { useNavigate } from 'react-router-dom'
 import Button from 'src/components/button'
 import { setProfileToLS } from 'src/utils/app'
+import { authApi } from 'src/apis/auth.api'
 
 // interface FormData {
 //   email: string
@@ -30,7 +30,7 @@ const Login = () => {
   const { isAuthenticated, setIsAuthenticated } = useApp()
   const navigate = useNavigate()
   const loginMutation = useMutation({
-    mutationFn: (body: FormData) => login(body)
+    mutationFn: (body: FormData) => authApi.login(body)
   })
   const handleLogin = (data: FormData) => {
     // console.log(data)

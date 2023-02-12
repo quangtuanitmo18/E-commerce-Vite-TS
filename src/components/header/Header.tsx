@@ -1,18 +1,17 @@
 import { Logo, Search, Cart } from '../icon'
 import Popover from '../popover'
 import { useMutation } from '@tanstack/react-query'
-import { logout } from 'src/apis/auth.api'
 import { useApp } from '../../contexts/app.context'
 import { Link } from 'react-router-dom'
 import path from 'src/constants/path'
-import { clearLS, setProfileToLS } from 'src/utils/app'
+import { authApi } from 'src/apis/auth.api'
 
 const Header = () => {
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useApp()
   // console.log(isAuthenticated)
   console.log(profile)
   const LogoutMutation = useMutation({
-    mutationFn: logout,
+    mutationFn: authApi.logout,
     onSuccess: () => {
       setIsAuthenticated(false)
       setProfile(null)

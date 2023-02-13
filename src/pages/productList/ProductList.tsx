@@ -8,6 +8,7 @@ import Pagination from 'src/components/pagination'
 import { useState } from 'react'
 import { ProductConfig } from 'src/types/product.type'
 import { isUndefined, omitBy } from 'lodash'
+import { categoryApi } from 'src/apis/category.api'
 
 export type QueryConfig = {
   [key in keyof ProductConfig]: string
@@ -27,7 +28,8 @@ const ProductList = () => {
       order: queryParam.order,
       price_max: queryParam.price_max,
       price_min: queryParam.price_min,
-      rating_filter: queryParam.rating_filter
+      rating_filter: queryParam.rating_filter,
+      category: queryParam.category
     },
     isUndefined
   )
@@ -38,7 +40,14 @@ const ProductList = () => {
     },
     keepPreviousData: true
   })
-  // console.log(data)
+  const { data: categoryData } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => {
+      return categoryApi.getCategories()
+    }
+  })
+
+  console.log(categoryData)
   // const [page, setPage] = useState(2)
 
   return (
@@ -46,7 +55,7 @@ const ProductList = () => {
       <div className='container py-4 '>
         <div className='grid grid-cols-12 gap-4'>
           <div className='col-span-3'>
-            <AsideFilter></AsideFilter>
+            {categoryData && <AsideFilter queryConfig={queryConfig} categories={categoryData?.data.data}></AsideFilter>}
           </div>
           <div className='col-span-9'>
             {data && (

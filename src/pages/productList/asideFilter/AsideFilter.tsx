@@ -1,13 +1,37 @@
+import classNames from 'classnames'
+import { omit } from 'lodash'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { createSearchParams, Link } from 'react-router-dom'
 import Button from 'src/components/button'
 import path from 'src/constants/path'
+import { category } from 'src/types/category.type'
+import { QueryConfig } from '../ProductList'
 
-const AsideFilter = () => {
+interface Props {
+  queryConfig: QueryConfig
+  categories: category[]
+}
+
+const AsideFilter = ({ queryConfig, categories }: Props) => {
+  const { category } = queryConfig
+  console.log(category)
   return (
     <div className='py-4'>
-      <Link to={path.home} className='flex gap-2  border-b border-solid border-gray-300 pb-5'>
-        <svg viewBox='0 0 12 10' className='shopee-svg-icon shopee-category-list__header-icon icon-all-cate h-4 w-4'>
+      <Link
+        to={{
+          pathname: path.home,
+          search: createSearchParams(
+            omit(
+              {
+                ...queryConfig
+              },
+              ['category']
+            )
+          ).toString()
+        }}
+        className='flex items-center gap-2 border-b border-solid border-gray-300 pb-5'
+      >
+        <svg viewBox='0 0 12 10' className={classNames('h-4 w-4', { 'fill-primary': category === undefined })}>
           <g fillRule='evenodd' stroke='none' strokeWidth={1}>
             <g transform='translate(-373 -208)'>
               <g transform='translate(155 191)'>
@@ -20,17 +44,39 @@ const AsideFilter = () => {
             </g>
           </g>
         </svg>
-        Tất cả danh mục
+        <p className={classNames('', { 'text-primary': category === undefined })}>Tất cả danh mục</p>
       </Link>
-      <ul className='py-5'>
-        <li className=' text-primary'>
-          <Link to={path.home} className='flex gap-2'>
-            <svg viewBox='0 0 4 7' className='h-3 w-3 fill-primary'>
-              <polygon points='4 3.5 0 0 0 7' />
-            </svg>
-            Thời Trang Nam
-          </Link>
-        </li>
+      <ul className='flex flex-col gap-3 py-5'>
+        {categories &&
+          categories.map((categoryItem, index) => (
+            <li
+              className={classNames(' ', {
+                'text-primary': category === categoryItem._id
+              })}
+              key={index}
+            >
+              <Link
+                to={{
+                  pathname: path.home,
+                  search: createSearchParams({
+                    ...queryConfig,
+                    category: categoryItem._id
+                  }).toString()
+                }}
+                className='flex gap-2'
+              >
+                <svg
+                  viewBox='0 0 4 7'
+                  className={classNames('h-3 w-3', {
+                    'fill-primary': category === categoryItem._id
+                  })}
+                >
+                  <polygon points='4 3.5 0 0 0 7' />
+                </svg>
+                {categoryItem.name}
+              </Link>
+            </li>
+          ))}
       </ul>
       <div className='py-5 '>
         <svg

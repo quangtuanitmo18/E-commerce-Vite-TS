@@ -1,5 +1,5 @@
 const ProductRating = ({ rating }: { rating: number }) => {
-  console.log(rating)
+  // console.log(rating)
   const handleWidth = (order: number) => {
     if (order <= rating) return '100%'
     else if (order > rating && order - rating < 1) {

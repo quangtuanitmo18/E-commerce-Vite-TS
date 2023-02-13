@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { ProductConfig } from 'src/types/product.type'
 import { isUndefined, omitBy } from 'lodash'
 import { categoryApi } from 'src/apis/category.api'
+import { spawn } from 'child_process'
 
 export type QueryConfig = {
   [key in keyof ProductConfig]: string
@@ -46,8 +47,9 @@ const ProductList = () => {
       return categoryApi.getCategories()
     }
   })
+  console.log(data)
 
-  console.log(categoryData)
+  // console.log(categoryData)
   // const [page, setPage] = useState(2)
 
   return (
@@ -71,8 +73,11 @@ const ProductList = () => {
                   <ProductItem key={product._id} product={product}></ProductItem>
                 ))}
             </div>
-            {data && (
+
+            {data && data?.data.data.products.length > 0 ? (
               <Pagination queryConfig={queryConfig} pageSize={data?.data.data.pagination.page_size}></Pagination>
+            ) : (
+              <span>Không có sản phẩm nào</span>
             )}
           </div>
         </div>

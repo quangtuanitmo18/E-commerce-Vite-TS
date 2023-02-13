@@ -56,10 +56,10 @@ const ProductList = () => {
     <div className='bg-gray-grayF5'>
       <div className='container py-4 '>
         <div className='grid grid-cols-12 gap-4'>
-          <div className='col-span-3'>
+          <div className='col-span-2'>
             {categoryData && <AsideFilter queryConfig={queryConfig} categories={categoryData?.data.data}></AsideFilter>}
           </div>
-          <div className='col-span-9'>
+          <div className='col-span-10'>
             {data && (
               <SortProductList
                 queryConfig={queryConfig}

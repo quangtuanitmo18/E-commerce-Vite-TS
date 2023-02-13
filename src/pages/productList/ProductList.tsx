@@ -49,7 +49,13 @@ const ProductList = () => {
             <AsideFilter></AsideFilter>
           </div>
           <div className='col-span-9'>
-            <SortProductList></SortProductList>
+            {data && (
+              <SortProductList
+                queryConfig={queryConfig}
+                pageSize={data?.data.data.pagination.page_size}
+              ></SortProductList>
+            )}
+
             <div className='grid grid-cols-2 gap-2 p-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
               {data &&
                 data.data.data.products.map((product) => (

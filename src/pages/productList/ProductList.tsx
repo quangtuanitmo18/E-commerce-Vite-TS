@@ -6,19 +6,40 @@ import { useQuery } from '@tanstack/react-query'
 import { productApi } from 'src/apis/product.api'
 import Pagination from 'src/components/pagination'
 import { useState } from 'react'
+import { ProductConfig } from 'src/types/product.type'
+import { isUndefined, omitBy } from 'lodash'
+
+export type QueryConfig = {
+  [key in keyof ProductConfig]: string
+}
 
 const ProductList = () => {
-  const queryParam = useQueryParam()
+  const queryParam: QueryConfig = useQueryParam()
   // console.log(queryParam)
   // console.log('dasdas(d')
+  const queryConfig: QueryConfig = omitBy(
+    {
+      page: queryParam.page || '1',
+      limit: queryParam.limit,
+      sort_by: queryParam.sort_by,
+      exclude: queryParam.exclude,
+      name: queryParam.name,
+      order: queryParam.order,
+      price_max: queryParam.price_max,
+      price_min: queryParam.price_min,
+      rating_filter: queryParam.rating_filter
+    },
+    isUndefined
+  )
   const { data } = useQuery({
     queryKey: ['products', queryParam],
     queryFn: () => {
-      return productApi.getproducts(queryParam)
-    }
+      return productApi.getproducts(queryConfig as ProductConfig)
+    },
+    keepPreviousData: true
   })
   // console.log(data)
-  const [page, setPage] = useState(2)
+  // const [page, setPage] = useState(2)
 
   return (
     <div className='bg-gray-grayF5'>
@@ -35,7 +56,9 @@ const ProductList = () => {
                   <ProductItem key={product._id} product={product}></ProductItem>
                 ))}
             </div>
-            <Pagination page={page} setPage={setPage} pageSize={20}></Pagination>
+            {data && (
+              <Pagination queryConfig={queryConfig} pageSize={data?.data.data.pagination.page_size}></Pagination>
+            )}
           </div>
         </div>
       </div>

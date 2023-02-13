@@ -1,15 +1,18 @@
 import classNames from 'classnames'
 import React from 'react'
+import { createSearchParams, Link, useNavigate } from 'react-router-dom'
+import path from 'src/constants/path'
+import { QueryConfig } from 'src/pages/productList/ProductList'
 
 interface Props {
-  page: number
-  setPage: React.Dispatch<React.SetStateAction<number>>
+  queryConfig: QueryConfig
   pageSize: number
 }
 const RANGE = 2
 const Pagination = (props: Props) => {
-  const { page, setPage, pageSize } = props
-
+  const { queryConfig, pageSize } = props
+  const page = Number(queryConfig.page)
+  // const navigate = useNavigate()
   const renderpagination = () => {
     let dotAfter = false
     let dotBefore = false
@@ -18,7 +21,7 @@ const Pagination = (props: Props) => {
       if (!dotBefore) {
         dotBefore = true
         return (
-          <button key={index} className='cursor-pointer rounded bg-white px-3 py-2 shadow-sm'>
+          <button key={index} className='cursor-not-allowed rounded bg-white px-3 py-2 shadow-sm'>
             ...
           </button>
         )
@@ -29,7 +32,7 @@ const Pagination = (props: Props) => {
       if (!dotAfter) {
         dotAfter = true
         return (
-          <button key={index} className='cursor-pointer rounded bg-white px-3 py-2 shadow-sm'>
+          <button key={index} className='cursor-not-allowed rounded bg-white px-3 py-2 shadow-sm'>
             ...
           </button>
         )
@@ -41,6 +44,7 @@ const Pagination = (props: Props) => {
       .fill(0)
       .map((_, index) => {
         const pageNumber = index + 1
+
         if (page <= RANGE * 2 + 1 && pageNumber > page + RANGE && pageNumber < pageSize - RANGE - 1) {
           return renderDotAfter(index)
         } else if (page > RANGE * 2 + 1 && page < pageSize - RANGE * 2) {
@@ -53,25 +57,40 @@ const Pagination = (props: Props) => {
           return renderDotBefore(index)
         }
         return (
-          <button
-            onClick={() => setPage(index + 1)}
+          <Link
+            to={{
+              pathname: path.home,
+              search: createSearchParams({
+                ...queryConfig,
+                page: pageNumber.toString()
+              }).toString()
+            }}
             key={index}
-            className={classNames('cursor-pointer rounded border bg-white px-3 py-2 shadow-sm', {
-              'border-cyan-600': pageNumber === page,
-              'border-transparent': pageNumber !== page
+            className={classNames('cursor-pointer rounded border border-solid bg-white px-3 py-2 shadow-sm', {
+              'border-cyan-600': pageNumber == page,
+              'border-transparent': pageNumber != page
             })}
           >
             {pageNumber}
-          </button>
+          </Link>
         )
       })
   }
 
   return (
     <div className='mt-6 flex flex-wrap justify-center'>
-      <button className='mx-2 cursor-pointer rounded bg-white px-3 py-2 shadow-sm'> Prev</button>
+      {page == 1 ? (
+        <span className='mx-2 cursor-not-allowed rounded bg-white px-3 py-2 shadow-sm'> Prev</span>
+      ) : (
+        <button className='mx-2 cursor-pointer rounded bg-white px-3 py-2 shadow-sm'> Prev</button>
+      )}
+
       {renderpagination()}
-      <button className='mx-2 cursor-pointer rounded bg-white px-3 py-2 shadow-sm'> Next</button>
+      {page == pageSize ? (
+        <button className='mx-2 cursor-not-allowed rounded bg-white px-3 py-2 shadow-sm'> Next</button>
+      ) : (
+        <button className='mx-2 cursor-pointer rounded bg-white px-3 py-2 shadow-sm'> Next</button>
+      )}
     </div>
   )
 }

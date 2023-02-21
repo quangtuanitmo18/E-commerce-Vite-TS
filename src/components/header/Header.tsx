@@ -2,12 +2,32 @@ import { Logo, Search, Cart } from '../icon'
 import Popover from '../popover'
 import { useMutation } from '@tanstack/react-query'
 import { useApp } from '../../contexts/app.context'
-import { Link } from 'react-router-dom'
+import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import { authApi } from 'src/apis/auth.api'
+import useQueryConfig from 'src/hooks/useQueryConfig'
+import { useForm } from 'react-hook-form'
+import { searchHeaderSchema, SearchHeaderSchema } from 'src/utils/rules'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { omit } from 'lodash'
+
+type FormData = SearchHeaderSchema
 
 const Header = () => {
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useApp()
+  const { queryConfig } = useQueryConfig()
+  const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid }
+  } = useForm<FormData>({
+    resolver: yupResolver(searchHeaderSchema),
+    defaultValues: {
+      name: ''
+    }
+  })
+  // console.log(errors)
   // console.log(isAuthenticated)
   // console.log(profile)
   const LogoutMutation = useMutation({
@@ -15,6 +35,20 @@ const Header = () => {
     onSuccess: () => {
       setIsAuthenticated(false)
       setProfile(null)
+    }
+  })
+  const onSubmitSearch = handleSubmit((data) => {
+    // console.log(data)
+    // khi search thì bỏ order và sortby
+    //  ỏw đây làm đơn giản là lỗi thì ko submit được
+    if (isValid) {
+      const config = queryConfig.order
+        ? omit({ ...queryConfig, name: data.name }, ['sort_by', 'order'])
+        : { ...queryConfig, name: data.name }
+      navigate({
+        pathname: path.home,
+        search: createSearchParams(config).toString()
+      })
     }
   })
 
@@ -86,11 +120,13 @@ const Header = () => {
         <div className='col-span-2'>
           <Logo className='!fill-white'></Logo>
         </div>
-        <div className='col-span-9 flex rounded-sm bg-white p-1'>
-          <input className='flex-1 outline-none' type='text' placeholder='Tìm kiếm sản phẩm' />
-          <button className='flex flex-shrink-0 items-center justify-center rounded-sm  bg-primary py-2 px-6'>
-            <Search className='text-white'></Search>
-          </button>
+        <div className='col-span-9 '>
+          <form className='flex rounded-sm bg-white p-1' action='' onSubmit={onSubmitSearch}>
+            <input className='flex-1 outline-none' type='text' placeholder='Tìm kiếm sản phẩm' {...register('name')} />
+            <button className='flex flex-shrink-0 items-center justify-center rounded-sm  bg-primary py-2 px-6'>
+              <Search className='text-white'></Search>
+            </button>
+          </form>
         </div>
         <div className='col-span-1 flex cursor-pointer items-center justify-center'>
           <Popover renderPopover={<Cart className='text-white '></Cart>}>

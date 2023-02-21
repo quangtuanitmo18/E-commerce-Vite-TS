@@ -6,8 +6,9 @@ import ProductRating from 'src/components/productRatting'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
 import InputNumber from 'src/components/inputNumber'
 import DOMPurify from 'dompurify'
-import { Product } from 'src/types/product.type'
+import { Product, ProductConfig } from 'src/types/product.type'
 import { v4 as uuidv4 } from 'uuid'
+import ProductItem from '../productList/components/productItem'
 
 const ProductDetail = () => {
   const { nameId } = useParams()
@@ -69,6 +70,17 @@ const ProductDetail = () => {
   const handleRemoveZoom = () => {
     imageRef.current?.removeAttribute('style')
   }
+  // related products
+  const queryConfig: ProductConfig = { limit: '20', page: '1', category: product?.category._id }
+  const { data: relatedProducts } = useQuery({
+    queryKey: ['products', queryConfig],
+    queryFn: () => {
+      return productApi.getproducts(queryConfig)
+    },
+    enabled: Boolean(product),
+    staleTime: 3 * 60 * 1000
+  })
+  // console.log(relatedProducts)
 
   if (!product) return null
 
@@ -235,6 +247,18 @@ const ProductDetail = () => {
                 __html: DOMPurify.sanitize(product.description)
               }}
             />
+          </div>
+        </div>
+      </div>
+      <div className='bg-white p-4'>
+        <div className='container'>
+          <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Sản phẩm liên quan</div>
+
+          <div className='mt-8 grid grid-cols-2 gap-2 p-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
+            {relatedProducts &&
+              relatedProducts.data.data.products.map((product) => (
+                <ProductItem key={product._id} product={product}></ProductItem>
+              ))}
           </div>
         </div>
       </div>

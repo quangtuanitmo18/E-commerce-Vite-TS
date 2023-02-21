@@ -46,7 +46,7 @@ const ProductList = () => {
       return categoryApi.getCategories()
     }
   })
-  console.log(data)
+  // console.log(data)
 
   // console.log(categoryData)
   // const [page, setPage] = useState(2)

@@ -4,6 +4,7 @@ import { useApp } from './contexts/app.context'
 import MainLayout from './layouts/mainLayout'
 import RegisterLayout from './layouts/registerLayout'
 import Login from './pages/login'
+import ProductDetail from './pages/productDetail'
 import ProductList from './pages/productList'
 import Register from './pages/register'
 
@@ -26,6 +27,15 @@ const useRouteElement = () => {
       element: (
         <MainLayout>
           <ProductList />
+        </MainLayout>
+      )
+    },
+    {
+      path: path.productDetail,
+      index: true,
+      element: (
+        <MainLayout>
+          <ProductDetail />
         </MainLayout>
       )
     },

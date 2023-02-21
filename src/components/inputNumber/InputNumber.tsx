@@ -4,7 +4,7 @@ import { UseFormRegister } from 'react-hook-form'
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   wrapperClassName?: string
   errorMessage?: string
-  name: string
+  name?: string
 }
 
 const InputNumber = forwardRef<HTMLInputElement, Props>(function inputNumberInner(props: Props, ref) {

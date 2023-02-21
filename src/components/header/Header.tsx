@@ -9,7 +9,7 @@ import { authApi } from 'src/apis/auth.api'
 const Header = () => {
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useApp()
   // console.log(isAuthenticated)
-  console.log(profile)
+  // console.log(profile)
   const LogoutMutation = useMutation({
     mutationFn: authApi.logout,
     onSuccess: () => {

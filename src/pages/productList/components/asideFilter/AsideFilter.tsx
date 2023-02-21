@@ -10,7 +10,7 @@ import path from 'src/constants/path'
 import { category } from 'src/types/category.type'
 import { NotUndefinedFiled } from 'src/types/utils.type'
 import { PriceSchema, priceSchema } from 'src/utils/rules'
-import { QueryConfig } from '../ProductList'
+import { QueryConfig } from '../../ProductList'
 import RatingStar from '../productRating'
 
 interface Props {

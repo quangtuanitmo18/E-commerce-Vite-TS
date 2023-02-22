@@ -3,19 +3,20 @@ import path from './constants/path'
 import { useApp } from './contexts/app.context'
 import MainLayout from './layouts/mainLayout'
 import RegisterLayout from './layouts/registerLayout'
+import Cart from './pages/cart'
 import Login from './pages/login'
 import ProductDetail from './pages/productDetail'
 import ProductList from './pages/productList'
 import Register from './pages/register'
 
 function ProtectedRoute() {
-  // const { isAuthenticated } = useApp()
-  const isAuthenticated = true
+  const { isAuthenticated } = useApp()
+  // const isAuthenticated = true
   return isAuthenticated ? <Outlet /> : <Navigate to={path.login} />
 }
 function RejectedRoute() {
-  // const { isAuthenticated } = useApp()
-  const isAuthenticated = false
+  const { isAuthenticated } = useApp()
+  // const isAuthenticated = false
   return !isAuthenticated ? <Outlet /> : <Navigate to={path.home} />
 }
 
@@ -48,6 +49,14 @@ const useRouteElement = () => {
           element: (
             <MainLayout>
               <ProductList />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.cart,
+          element: (
+            <MainLayout>
+              <Cart />
             </MainLayout>
           )
         }

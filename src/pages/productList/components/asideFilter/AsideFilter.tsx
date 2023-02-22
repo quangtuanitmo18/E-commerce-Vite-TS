@@ -152,6 +152,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
             <p> Khoảng giá</p>
             <form action='' onSubmit={onSubmit}>
               <div className='mt-3 flex h-auto items-center gap-2'>
+                {/*  test thử usecontroller với cách khai báo để gợi ý name hơi phức tạo */}
                 <InputV2
                   control={control}
                   type='number'

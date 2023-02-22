@@ -1,6 +1,6 @@
 import { Logo, Search, Cart } from '../icon'
 import Popover from '../popover'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useApp } from '../../contexts/app.context'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
@@ -21,6 +21,7 @@ const Header = () => {
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useApp()
   // console.log(isAuthenticated)
   const { queryConfig } = useQueryConfig()
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
   const {
     register,
@@ -47,6 +48,7 @@ const Header = () => {
     onSuccess: () => {
       setIsAuthenticated(false)
       setProfile(null)
+      queryClient.removeQueries({ queryKey: ['purchases', { status: purchaseStatus.inCart }] })
     }
   })
   const onSubmitSearch = handleSubmit((data) => {

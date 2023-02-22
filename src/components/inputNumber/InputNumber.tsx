@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes } from 'react'
+import { forwardRef, InputHTMLAttributes, useState } from 'react'
 import { UseFormRegister } from 'react-hook-form'
 
 export interface InputNumberProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -11,11 +11,15 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function inpu
   props: InputNumberProps,
   ref
 ) {
-  const { type, wrapperClassName, className, placeholder, errorMessage, onChange, ...rest } = props
+  const { type, wrapperClassName, className, placeholder, errorMessage, onChange, value = '', ...rest } = props
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [localState, setLocalState] = useState<string>(value as string)
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    if ((/^\d+$/.test(value) || value === '') && onChange) {
-      onChange(e)
+    if (/^\d+$/.test(value) || value === '') {
+      onChange && onChange(e)
+      setLocalState(value)
     }
   }
   return (
@@ -24,6 +28,7 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function inpu
         className={`w-full rounded border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow ${className}`}
         type={type}
         placeholder={placeholder}
+        value={value || localState}
         {...rest}
         ref={ref}
         onChange={handleChange}

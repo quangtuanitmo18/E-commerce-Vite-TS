@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import InputNumber, { InputNumberProps } from '../inputNumber'
 
 interface Props extends InputNumberProps {
@@ -10,6 +10,8 @@ interface Props extends InputNumberProps {
 
 const QuantityController = (props: Props) => {
   const { max, onDecrease, onIncrease, onType, value, ...rest } = props
+  const [localState, setLocalState] = useState<number>(Number(value || 1))
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let _value = Number(event.target.value)
     if (max !== undefined && _value > max) {
@@ -19,22 +21,26 @@ const QuantityController = (props: Props) => {
     }
 
     onType && onType(_value)
+    setLocalState(_value)
   }
 
   const increase = () => {
-    let _value = Number(value) + 1
+    let _value = Number(value || localState) + 1
     if (max !== undefined && _value > max) {
       _value = max
     }
+    // console.log(_value)
     onIncrease && onIncrease(_value)
+    setLocalState(_value)
   }
 
   const decrease = () => {
-    let _value = Number(value) - 1
+    let _value = Number(value || localState) - 1
     if (_value < 1) {
       _value = 1
     }
     onDecrease && onDecrease(_value)
+    setLocalState(_value)
   }
   return (
     <div className={`ml-10 flex items-center`}>
@@ -53,7 +59,7 @@ const QuantityController = (props: Props) => {
           <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 12h-15' />
         </svg>
       </button>
-      <InputNumber value={value} onChange={handleChange} {...rest}></InputNumber>
+      <InputNumber value={value || localState} onChange={handleChange} {...rest}></InputNumber>
       <button
         className='flex h-8 w-8 items-center justify-center rounded-r-sm border border-gray-300 text-gray-600'
         onClick={increase}

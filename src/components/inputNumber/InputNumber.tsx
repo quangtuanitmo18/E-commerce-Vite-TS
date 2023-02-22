@@ -1,13 +1,16 @@
 import { forwardRef, InputHTMLAttributes } from 'react'
 import { UseFormRegister } from 'react-hook-form'
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputNumberProps extends InputHTMLAttributes<HTMLInputElement> {
   wrapperClassName?: string
   errorMessage?: string
   name?: string
 }
 
-const InputNumber = forwardRef<HTMLInputElement, Props>(function inputNumberInner(props: Props, ref) {
+const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function inputNumberInner(
+  props: InputNumberProps,
+  ref
+) {
   const { type, wrapperClassName, className, placeholder, errorMessage, onChange, ...rest } = props
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -16,7 +19,7 @@ const InputNumber = forwardRef<HTMLInputElement, Props>(function inputNumberInne
     }
   }
   return (
-    <div className={`${wrapperClassName}`}>
+    <div className={`inline-flex ${wrapperClassName}`}>
       <input
         className={`w-full rounded border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow ${className}`}
         type={type}

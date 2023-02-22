@@ -43,7 +43,7 @@ const QuantityController = (props: Props) => {
     setLocalState(_value)
   }
   return (
-    <div className={`ml-10 flex items-center`}>
+    <div className={`flex items-center`}>
       <button
         className='flex h-8 w-8 items-center justify-center rounded-l-sm border border-gray-300 text-gray-600'
         onClick={decrease}

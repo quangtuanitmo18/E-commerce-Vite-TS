@@ -12,6 +12,7 @@ import { NotUndefinedFiled } from 'src/types/utils.type'
 import { PriceSchema, priceSchema } from 'src/utils/rules'
 import RatingStar from '../productRating'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
+import InputV2 from 'src/components/inputV2'
 
 interface Props {
   queryConfig: QueryConfig
@@ -151,7 +152,16 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
             <p> Khoảng giá</p>
             <form action='' onSubmit={onSubmit}>
               <div className='mt-3 flex h-auto items-center gap-2'>
-                <Controller
+                <InputV2
+                  control={control}
+                  type='number'
+                  name='price_max'
+                  placeholder='Từ'
+                  onChange={() => {
+                    trigger('price_max')
+                  }}
+                ></InputV2>
+                {/* <Controller
                   name='price_min'
                   control={control}
                   render={({ field }) => {
@@ -170,7 +180,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                       />
                     )
                   }}
-                />
+                /> */}
                 <div className='mx-2 shrink-0'>-</div>
                 <Controller
                   name='price_max'

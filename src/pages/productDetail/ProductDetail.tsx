@@ -1,22 +1,26 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { productApi } from 'src/apis/product.api'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import ProductRating from 'src/components/productRatting'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
-import InputNumber from 'src/components/inputNumber'
 import DOMPurify from 'dompurify'
 import { Product, ProductConfig } from 'src/types/product.type'
 import { v4 as uuidv4 } from 'uuid'
 import ProductItem from '../productList/components/productItem'
 import QuantityController from 'src/components/quantityController'
-import { number } from 'yup'
+import { purchaseApi } from 'src/apis/purchase.api'
+import { purchaseStatus } from 'src/constants/purchase'
+import { toast } from 'react-toastify'
 
 const ProductDetail = () => {
   const { nameId } = useParams()
   const id = getIdFromNameId(nameId as string)
   const [buyCount, setBuyCount] = useState(1)
   // console.log(id)
+
+  const queryClient = useQueryClient()
+
   const { data: productDetailData } = useQuery({
     queryKey: ['product', id],
     queryFn: () => productApi.getProductDetail(id as string)
@@ -87,6 +91,22 @@ const ProductDetail = () => {
     staleTime: 3 * 60 * 1000
   })
   // console.log(relatedProducts)
+
+  // addtocart
+  const addToCartMutation = useMutation({
+    mutationFn: (body: { product_id: string; buy_count: number }) => purchaseApi.addToCart(body)
+  })
+  const addToCart = () => {
+    addToCartMutation.mutate(
+      { product_id: product?._id as string, buy_count: buyCount },
+      {
+        onSuccess: (data) => {
+          toast.success(data.data.message, { delay: 1500 })
+          queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchaseStatus.inCart }] })
+        }
+      }
+    )
+  }
 
   if (!product) return null
 
@@ -162,7 +182,7 @@ const ProductDetail = () => {
               <h1 className='text-xl font-medium uppercase'>{product.name}</h1>
               <div className='mt-8 flex items-center'>
                 <div className='flex items-center'>
-                  <span className='border-b-orange text-orange mr-1 border-b'>{product.rating}</span>
+                  <span className='mr-1 border-b border-b-primary text-primary'>{product.rating}</span>
                   <ProductRating rating={product.rating} />
                 </div>
                 <div className='mx-4 h-4 w-[1px] bg-gray-300'></div>
@@ -173,8 +193,8 @@ const ProductDetail = () => {
               </div>
               <div className='mt-8 flex items-center bg-gray-50 px-5 py-4'>
                 <div className='text-gray-500 line-through'>₫{formatCurrency(product.price_before_discount)}</div>
-                <div className='text-orange ml-3 text-3xl font-medium'>₫{formatCurrency(product.price)}</div>
-                <div className='bg-orange ml-4 rounded-sm px-1 py-[2px] text-xs font-semibold uppercase text-white'>
+                <div className='ml-3 text-3xl font-medium text-primary'>₫{formatCurrency(product.price)}</div>
+                <div className='ml-4 rounded-sm bg-primary px-1 py-[2px] text-xs font-semibold uppercase text-white'>
                   {rateSale(product.price_before_discount, product.price)} giảm
                 </div>
               </div>
@@ -191,13 +211,16 @@ const ProductDetail = () => {
                 <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
               </div>
               <div className='mt-8 flex items-center'>
-                <button className='border-orange bg-orange/10 text-orange hover:bg-orange/5 flex h-12 items-center justify-center rounded-sm border px-5 capitalize shadow-sm'>
+                <button
+                  className='flex h-12 items-center justify-center rounded-sm border border-primary bg-primary/10 px-5 capitalize text-primary shadow-sm hover:bg-primary/5'
+                  onClick={addToCart}
+                >
                   <svg
                     enableBackground='new 0 0 15 15'
                     viewBox='0 0 15 15'
                     x={0}
                     y={0}
-                    className='stroke-orange text-orange mr-[10px] h-5 w-5 fill-current'
+                    className='mr-[10px] h-5 w-5 fill-current stroke-primary text-primary'
                   >
                     <g>
                       <g>
@@ -217,7 +240,7 @@ const ProductDetail = () => {
                   </svg>
                   Thêm vào giỏ hàng
                 </button>
-                <button className='fkex bg-orange hover:bg-orange/90 ml-4 h-12 min-w-[5rem] items-center justify-center rounded-sm px-5 capitalize text-white shadow-sm outline-none'>
+                <button className='fkex ml-4 h-12 min-w-[5rem] items-center justify-center rounded-sm bg-primary px-5 capitalize text-white shadow-sm outline-none hover:bg-primary/90'>
                   Mua ngay
                 </button>
               </div>

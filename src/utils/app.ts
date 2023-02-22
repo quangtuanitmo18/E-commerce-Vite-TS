@@ -1,11 +1,12 @@
 import { User } from 'src/types/user.type'
 
 export const setAccessTokenToLS = (access_token: string) => {
-  localStorage.setItem('accessToken', access_token)
+  localStorage.setItem('access_token', access_token)
 }
-export const getAccessTokenFromLS = () => {
-  localStorage.getItem('access_token') || ''
-}
+// chỗ này cần phải return về mới co token
+// nhầm tai hại
+export const getAccessTokenFromLS = () => localStorage.getItem('access_token') || ''
+
 export const clearLS = () => {
   localStorage.removeItem('access_token')
   localStorage.removeItem('profile')

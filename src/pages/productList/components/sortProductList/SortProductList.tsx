@@ -1,11 +1,10 @@
 import classNames from 'classnames'
 import { omit } from 'lodash'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
-import Button from 'src/components/button'
 import path from 'src/constants/path'
 import { product } from 'src/constants/product'
+import { QueryConfig } from 'src/hooks/useQueryConfig'
 import { ProductConfig } from 'src/types/product.type'
-import { QueryConfig } from '../ProductList'
 
 interface Props {
   queryConfig: QueryConfig

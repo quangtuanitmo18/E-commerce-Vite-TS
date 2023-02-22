@@ -20,6 +20,8 @@ const AppContext = createContext<AppContextInterface>(initialAppContext)
 const AppProvider = ({ children, ...rest }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated)
   const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
+  // console.log(getAccessTokenFromLS())
+  // console.log(isAuthenticated)
 
   const values = { isAuthenticated, setIsAuthenticated, profile, setProfile }
 

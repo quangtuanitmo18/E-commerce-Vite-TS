@@ -10,8 +10,8 @@ import path from 'src/constants/path'
 import { category } from 'src/types/category.type'
 import { NotUndefinedFiled } from 'src/types/utils.type'
 import { PriceSchema, priceSchema } from 'src/utils/rules'
-import { QueryConfig } from '../../ProductList'
 import RatingStar from '../productRating'
+import { QueryConfig } from 'src/hooks/useQueryConfig'
 
 interface Props {
   queryConfig: QueryConfig
@@ -21,6 +21,7 @@ type formData = NotUndefinedFiled<PriceSchema>
 //  de loai bo cai undefind nay thi can
 
 const AsideFilter = ({ queryConfig, categories }: Props) => {
+  // console.log(categories)
   const { category } = queryConfig
   const {
     control,
@@ -95,12 +96,12 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
       </Link>
       <ul className='flex flex-col gap-3 py-5 px-2'>
         {categories &&
-          categories.map((categoryItem, index) => (
+          categories.map((categoryItem) => (
             <li
               className={classNames(' ', {
                 'text-primary': category === categoryItem._id
               })}
-              key={index}
+              key={categoryItem._id}
             >
               <Link
                 to={{

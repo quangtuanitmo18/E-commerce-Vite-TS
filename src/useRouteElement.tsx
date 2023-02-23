@@ -1,3 +1,4 @@
+import { profile } from 'console'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import path from './constants/path'
 import { useApp } from './contexts/app.context'
@@ -9,6 +10,10 @@ import Login from './pages/login'
 import ProductDetail from './pages/productDetail'
 import ProductList from './pages/productList'
 import Register from './pages/register'
+import UserLayout from './pages/user/layouts'
+import ChangePassword from './pages/user/pages/changePassword'
+import HistoryPurchase from './pages/user/pages/historyPurchase'
+import Profile from './pages/user/pages/profile'
 
 function ProtectedRoute() {
   const { isAuthenticated } = useApp()
@@ -24,35 +29,9 @@ function RejectedRoute() {
 const useRouteElement = () => {
   const routeElements = useRoutes([
     {
-      path: path.home,
-      index: true,
-      element: (
-        <MainLayout>
-          <ProductList />
-        </MainLayout>
-      )
-    },
-    {
-      path: path.productDetail,
-      index: true,
-      element: (
-        <MainLayout>
-          <ProductDetail />
-        </MainLayout>
-      )
-    },
-    {
       path: '',
       element: <ProtectedRoute />,
       children: [
-        {
-          path: path.profile,
-          element: (
-            <MainLayout>
-              <ProductList />
-            </MainLayout>
-          )
-        },
         {
           path: path.cart,
           element: (
@@ -60,6 +39,28 @@ const useRouteElement = () => {
               <Cart />
             </CartLayout>
           )
+        },
+        {
+          path: path.user,
+          element: (
+            <MainLayout>
+              <UserLayout></UserLayout>
+            </MainLayout>
+          ),
+          children: [
+            {
+              path: path.profile,
+              element: <Profile />
+            },
+            {
+              path: path.historyPurchase,
+              element: <HistoryPurchase />
+            },
+            {
+              path: path.changePassword,
+              element: <ChangePassword />
+            }
+          ]
         }
       ]
     },
@@ -84,6 +85,24 @@ const useRouteElement = () => {
           )
         }
       ]
+    },
+    {
+      path: path.home,
+      index: true,
+      element: (
+        <MainLayout>
+          <ProductList />
+        </MainLayout>
+      )
+    },
+    {
+      path: path.productDetail,
+      index: true,
+      element: (
+        <MainLayout>
+          <ProductDetail />
+        </MainLayout>
+      )
     }
   ])
 

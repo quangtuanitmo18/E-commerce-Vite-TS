@@ -1,11 +1,50 @@
 import Input from 'src/components/input'
-import { useForm } from 'react-hook-form'
-export default function Profile() {
-  const {
-    register,
+import { useForm, Controller } from 'react-hook-form'
+import { userSchema, UserSchema } from 'src/utils/rules'
+import { useQuery } from '@tanstack/react-query'
+import { userApi } from 'src/apis/user.api'
+import { yupResolver } from '@hookform/resolvers/yup'
 
+import InputNumber from 'src/components/inputNumber'
+import { useEffect } from 'react'
+
+type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
+const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
+
+export default function Profile() {
+  const { data: profileData } = useQuery({
+    queryKey: ['profile'],
+    queryFn: userApi.getProfile
+  })
+  // console.log(profileData)
+  const {
+    control,
+    register,
+    watch,
+    setValue,
     formState: { errors, isValid }
-  } = useForm()
+  } = useForm<FormData>({
+    defaultValues: {
+      name: '',
+      phone: '',
+      address: '',
+      avatar: '',
+      date_of_birth: new Date(1990, 0, 1)
+    },
+    resolver: yupResolver(profileSchema)
+  })
+  const profile = profileData?.data.data
+  useEffect(() => {
+    if (profile) {
+      setValue('name', profile.name)
+      setValue('phone', profile.phone)
+      setValue('address', profile.address)
+      setValue('avatar', profile.avatar)
+      setValue('date_of_birth', profile.date_of_birth ? new Date(profile.date_of_birth) : new Date(1990, 0, 1))
+    }
+  }, [profile])
+
+  if (!profile) return null
 
   return (
     <div className='rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20'>
@@ -18,25 +57,36 @@ export default function Profile() {
           <div className='flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
             <div className='sm:w-[80%] sm:pl-5'>
-              <div className='pt-3 text-gray-700'>du***********@gmail.com</div>
+              <div className='pt-3 text-gray-700'>{profile.email}</div>
             </div>
           </div>
           <div className='mt-6 flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Tên</div>
             <div className='sm:w-[80%] sm:pl-5'>
-              <Input name='name' register={register} />
+              <Input name='name' register={register} placeholder='Tên' />
             </div>
           </div>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Số điện thoại</div>
             <div className='sm:w-[80%] sm:pl-5'>
-              <Input name='phone-number' register={register} />
+              <Controller
+                control={control}
+                name='phone'
+                render={({ field }) => (
+                  <InputNumber
+                    placeholder='Số điện thoại'
+                    errorMessage={errors.phone?.message}
+                    {...field}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
             </div>
           </div>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Địa chỉ</div>
             <div className='sm:w-[80%] sm:pl-5'>
-              <Input name='address' register={register} />
+              <Input name='address' register={register} placeholder='Địa chỉ' />
             </div>
           </div>
           <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>

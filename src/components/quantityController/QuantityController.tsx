@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import React, { useState } from 'react'
 import InputNumber, { InputNumberProps } from '../inputNumber'
 
@@ -5,11 +6,12 @@ interface Props extends InputNumberProps {
   max?: number
   onIncrease?: (value: number) => void
   onDecrease?: (value: number) => void
+  onFocusOut?: (value: number) => void
   onType?: (value: number) => void
 }
 
 const QuantityController = (props: Props) => {
-  const { max, onDecrease, onIncrease, onType, value, ...rest } = props
+  const { max, onDecrease, onIncrease, onType, value, onFocusOut, ...rest } = props
   const [localState, setLocalState] = useState<number>(Number(value || 1))
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,10 +44,18 @@ const QuantityController = (props: Props) => {
     onDecrease && onDecrease(_value)
     setLocalState(_value)
   }
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+    onFocusOut && onFocusOut(Number(e.target.value))
+  }
   return (
     <div className={`flex items-center`}>
       <button
-        className='flex h-8 w-8 items-center justify-center rounded-l-sm border border-gray-300 text-gray-600'
+        className={classNames(
+          'flex h-8 w-8 items-center justify-center rounded-l-sm border border-gray-300 text-gray-600',
+          {
+            'cursor-not-allowed': value === 1
+          }
+        )}
         onClick={decrease}
       >
         <svg
@@ -59,9 +69,14 @@ const QuantityController = (props: Props) => {
           <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 12h-15' />
         </svg>
       </button>
-      <InputNumber value={value || localState} onChange={handleChange} {...rest}></InputNumber>
+      <InputNumber value={value || localState} onChange={handleChange} onBlur={handleBlur} {...rest}></InputNumber>
       <button
-        className='flex h-8 w-8 items-center justify-center rounded-r-sm border border-gray-300 text-gray-600'
+        className={classNames(
+          'flex h-8 w-8 items-center justify-center rounded-l-sm border border-gray-300 text-gray-600',
+          {
+            'cursor-not-allowed': value === max
+          }
+        )}
         onClick={increase}
       >
         <svg

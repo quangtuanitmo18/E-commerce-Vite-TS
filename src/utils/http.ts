@@ -55,6 +55,11 @@ class Http {
           toast.error(message)
           // console.log(message)
         }
+        // khi accesstoken hết hạn thì cần xóa nó đi ở localStorage và context
+        if (error.response?.status === HttpStatusCode.Unauthorized) {
+          clearLS()
+        }
+
         return Promise.reject(error)
       }
     )

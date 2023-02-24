@@ -156,7 +156,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                 <InputV2
                   control={control}
                   type='number'
-                  name='price_max'
+                  name='price_min'
                   placeholder='Từ'
                   onChange={() => {
                     trigger('price_max')

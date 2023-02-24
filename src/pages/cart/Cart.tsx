@@ -9,7 +9,7 @@ import Button from 'src/components/button'
 import { Purchase } from 'src/types/purchases.type'
 import { useEffect, useMemo } from 'react'
 import produce from 'immer'
-import { keyBy } from 'lodash'
+import keyBy from 'lodash/keyBy'
 import { toast } from 'react-toastify'
 import { useApp } from 'src/contexts/app.context'
 

@@ -1,5 +1,6 @@
-import { isUndefined, omitBy } from 'lodash'
-import React from 'react'
+import isUndefined from 'lodash/isUndefined'
+import omitBy from 'lodash/omitBy'
+
 import { ProductConfig } from 'src/types/product.type'
 import useQueryParam from './useQueryParam'
 export type QueryConfig = {

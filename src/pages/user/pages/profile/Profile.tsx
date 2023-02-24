@@ -16,6 +16,7 @@ import { getAvatarUrl, isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/types/utils.type'
 import config from 'src/constants/config'
 import InputFile from 'src/components/inputFile'
+import Button from 'src/components/button'
 
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
 const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
@@ -207,9 +208,9 @@ export default function Profile() {
             </div>
           </div>
 
-          <div className='ml-6 mt-6 flex flex-col flex-wrap sm:flex-row'>
+          <div className='mt-6 flex flex-col flex-wrap sm:flex-row'>
             <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'></div>
-            <button className='rounded bg-primary p-3 capitalize text-white'>Cập nhật</button>
+            <Button className='w-[400px]'>Cập nhật</Button>
           </div>
         </form>
       </div>

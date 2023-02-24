@@ -56,6 +56,16 @@ type Rules = {
 //       typeof getValues === 'function' ? (value) => value === getValues('password') || 'Mật khẩu không khớp' : undefined
 //   }
 // })
+const handleCheckConfirmPassword = (refString: string) => {
+  return yup
+    .string()
+    .required('Password là bắt buộc')
+    .min(8, 'Độ dài kí tự từ 8-160')
+    .max(160, 'Độ dài kí tự từ 5-160')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Mật khẩu không đúng định dạng')
+    .oneOf([yup.ref(refString)], 'Nhập lại mật khẩu không khớp')
+}
+
 function testPriceMinMax(this: yup.TestContext<AnyObject>) {
   const { price_max, price_min } = this.parent as { price_min: string; price_max: string }
   if (price_min !== '' && price_max !== '') {
@@ -80,13 +90,7 @@ export const schema = yup.object({
     .min(8, 'Độ dài kí tự từ 8-160')
     .max(160, 'Độ dài kí tự từ 5-160')
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Mật khẩu không đúng định dạng'),
-  confirm_password: yup
-    .string()
-    .required('Password là bắt buộc')
-    .min(8, 'Độ dài kí tự từ 8-160')
-    .max(160, 'Độ dài kí tự từ 5-160')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Mật khẩu không đúng định dạng')
-    .oneOf([yup.ref('password')], 'Nhập lại mật khẩu không khớp'),
+  confirm_password: handleCheckConfirmPassword('password'),
 
   price_min: yup.string().test({
     name: 'price-not-allowed',
@@ -108,7 +112,7 @@ export const userSchema = yup.object({
   date_of_birth: yup.date().max(new Date(), 'Hãy chọn 1 ngày trong quá khứ'),
   password: schema.fields['password'],
   new_password: schema.fields['password'],
-  confirm_password: schema.fields['confirm_password']
+  confirm_password: handleCheckConfirmPassword('new_password')
 })
 
 export const registerSchema = schema.pick(['email', 'password', 'confirm_password'])

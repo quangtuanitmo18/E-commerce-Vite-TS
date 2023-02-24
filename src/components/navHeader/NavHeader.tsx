@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import { useApp } from 'src/contexts/app.context'
 import Popover from '../popover'
@@ -8,7 +8,11 @@ import { authApi } from 'src/apis/auth.api'
 import { purchaseStatus } from 'src/constants/purchase'
 
 const NavHeader = () => {
+  // test error boundary
+  // throw new Error('something went wrong!')
+
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useApp()
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
   const LogoutMutation = useMutation({
     mutationFn: authApi.logout,
@@ -68,7 +72,9 @@ const NavHeader = () => {
         >
           <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
             <div className='flex flex-col gap-2 px-3 py-2'>
-              <button className='py-2 px-3 hover:text-primary'>Profile</button>
+              <button className='py-2 px-3 hover:text-primary' onClick={() => navigate(path.profile)}>
+                Profile
+              </button>
               <button className='py-2 px-3 hover:text-primary' onClick={() => LogoutMutation.mutate()}>
                 Đăng Xuất
               </button>

@@ -1,5 +1,6 @@
 import axios, { type AxiosInstance, AxiosError } from 'axios'
 import { toast } from 'react-toastify'
+import config from 'src/constants/config'
 import { HttpStatusCode } from 'src/constants/httpStatusCode.enum'
 import path from 'src/constants/path'
 import { AuthResponse } from 'src/types/auth.type'
@@ -12,7 +13,7 @@ class Http {
     // phai lay trước từ ở đây do lúc đầu nó sẽ request trước (cái trường hợp khi reload lại)
     this.accessToken = getAccessTokenFromLS()
     this.instance = axios.create({
-      baseURL: 'https://api-ecom.duthanhduoc.com/',
+      baseURL: config.baseUrl,
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json'
@@ -51,7 +52,7 @@ class Http {
       function (error: AxiosError) {
         if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
           const data: any | undefined = error.response?.data
-          const message = data.message || error.message
+          const message = data?.message || error.message
           toast.error(message)
           // console.log(message)
         }

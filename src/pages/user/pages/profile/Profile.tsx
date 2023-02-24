@@ -14,6 +14,8 @@ import { useApp } from 'src/contexts/app.context'
 import userImgDefault from 'src/assets/images/user-default.png'
 import { getAvatarUrl, isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/types/utils.type'
+import config from 'src/constants/config'
+import InputFile from 'src/components/inputFile'
 
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
 const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
@@ -26,7 +28,7 @@ export default function Profile() {
     queryKey: ['profile'],
     queryFn: userApi.getProfile
   })
-  console.log(profileData)
+  // console.log(profileData)
   // hiêtn thị file
   const [file, setFile] = useState<File>()
   const previewImage = useMemo(() => {
@@ -34,7 +36,6 @@ export default function Profile() {
   }, [file])
   // console.log(previewImage)
 
-  const refInputFile = useRef<HTMLInputElement>(null)
   const { setProfile } = useApp()
   const updateProfileMutation = useMutation(userApi.updateProfile)
   const uploadAvatarMutaion = useMutation(userApi.uploadAvatar)
@@ -97,12 +98,18 @@ export default function Profile() {
     }
     // const res = await updateProfileMutation.mutateAsync({ ...data, date_of_birth: data.date_of_birth?.toISOString() })
   })
-  const handleUploadImg = () => {
-    refInputFile.current?.click()
-  }
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileFromLocal = e.target.files?.[0]
-    setFile(fileFromLocal)
+
+  // const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const fileFromLocal = e.target.files?.[0]
+  //   // console.log(fileFromLocal)
+  //   if (fileFromLocal && (fileFromLocal.size >= config.maxSizeUploadAvatar || !fileFromLocal.type.includes('image'))) {
+  //     toast.error('Dụng lượng file tối đa 1 MB Định dạng:.JPEG, .PNG')
+  //   } else {
+  //     setFile(fileFromLocal)
+  //   }
+  // }
+  const handleFileChange = (file?: File) => {
+    setFile(file)
   }
 
   const profile = profileData?.data.data
@@ -125,82 +132,78 @@ export default function Profile() {
         <div className='mt-1 text-sm text-gray-700'>Quản lý thông tin hồ sơ để bảo mật tài khoản</div>
       </div>
       <div className='mt-8 flex flex-col-reverse md:flex-row md:items-start'>
-        <form className='mt-6 flex-grow md:mt-0 md:pr-12' onSubmit={onSubmit}>
-          <div className='flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <div className='pt-3 text-gray-700'>{profile.email}</div>
-            </div>
-          </div>
-          <div className='mt-6 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Tên</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <Input name='name' register={register} placeholder='Tên' errorMessage={errors.name?.message} />
-            </div>
-          </div>
-          <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Số điện thoại</div>
-            <div className='sm:w-[80%] sm:pl-5'>
+        <form className='mt-6 w-full flex-col md:mt-0 md:pr-12' onSubmit={onSubmit}>
+          <div className='flex w-full justify-between'>
+            <div className='w-[70%]'>
+              <div className='flex flex-col flex-wrap sm:flex-row'>
+                <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Email</div>
+                <div className='sm:w-[80%] sm:pl-5'>
+                  <div className='pt-3 text-gray-700'>{profile.email}</div>
+                </div>
+              </div>
+              <div className='mt-6 flex flex-col flex-wrap sm:flex-row'>
+                <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Tên</div>
+                <div className='sm:w-[80%] sm:pl-5'>
+                  <Input name='name' register={register} placeholder='Tên' errorMessage={errors.name?.message} />
+                </div>
+              </div>
+              <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
+                <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Số điện thoại</div>
+                <div className='sm:w-[80%] sm:pl-5'>
+                  <Controller
+                    control={control}
+                    name='phone'
+                    render={({ field }) => (
+                      <InputNumber
+                        wrapperClassName='w-full'
+                        placeholder='Số điện thoại'
+                        errorMessage={errors.phone?.message}
+                        {...field}
+                        onChange={field.onChange}
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+              <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
+                <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Địa chỉ</div>
+                <div className='sm:w-[80%] sm:pl-5'>
+                  <Input
+                    name='address'
+                    register={register}
+                    placeholder='Địa chỉ'
+                    errorMessage={errors.address?.message}
+                  />
+                </div>
+              </div>
               <Controller
                 control={control}
-                name='phone'
+                name='date_of_birth'
                 render={({ field }) => (
-                  <InputNumber
-                    placeholder='Số điện thoại'
-                    errorMessage={errors.phone?.message}
-                    {...field}
+                  <DateSelect
+                    errorMessage={errors.date_of_birth?.message}
+                    value={field.value}
                     onChange={field.onChange}
-                  />
+                  ></DateSelect>
                 )}
               />
             </div>
-          </div>
-          <div className='mt-2 flex flex-col flex-wrap sm:flex-row'>
-            <div className='truncate pt-3 capitalize sm:w-[20%] sm:text-right'>Địa chỉ</div>
-            <div className='sm:w-[80%] sm:pl-5'>
-              <Input name='address' register={register} placeholder='Địa chỉ' errorMessage={errors.address?.message} />
-            </div>
-          </div>
-          <Controller
-            control={control}
-            name='date_of_birth'
-            render={({ field }) => (
-              <DateSelect
-                errorMessage={errors.date_of_birth?.message}
-                value={field.value}
-                onChange={field.onChange}
-              ></DateSelect>
-            )}
-          />
-          <div className='flex justify-center md:w-72 md:border-l md:border-l-gray-200'>
-            <div className='flex flex-col items-center'>
-              <div className='my-5 h-24 w-24'>
-                <img
-                  src={previewImage || getAvatarUrl(avatar)}
-                  alt='avatar'
-                  className='w-full w-full rounded-full object-cover'
-                />
+            <div className='flex w-[30%] justify-center md:w-72 md:border-l md:border-l-gray-200  '>
+              <div className='flex flex-col items-center'>
+                <div className='my-5 h-24 w-24'>
+                  <img
+                    src={previewImage || getAvatarUrl(avatar)}
+                    alt='avatar'
+                    className='w-full w-full rounded-full object-cover'
+                  />
+                </div>
+                <InputFile onChange={handleFileChange}></InputFile>
+                <div className='mt-3 text-gray-400'>
+                  <div>Dụng lượng file tối đa 1 MB</div>
+                  <div>Định dạng:.JPEG, .PNG</div>
+                </div>
+                <div>{errors.avatar?.message}</div>
               </div>
-              <input
-                className='hidden'
-                type='file'
-                accept='.jpg,.jpeg,.png'
-                // {...register('avatar')}
-                ref={refInputFile}
-                onChange={onFileChange}
-              />
-              <button
-                type='button'
-                className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm'
-                onClick={handleUploadImg}
-              >
-                Chọn ảnh
-              </button>
-              <div className='mt-3 text-gray-400'>
-                <div>Dụng lượng file tối đa 1 MB</div>
-                <div>Định dạng:.JPEG, .PNG</div>
-              </div>
-              <div>{errors.avatar?.message}</div>
             </div>
           </div>
 

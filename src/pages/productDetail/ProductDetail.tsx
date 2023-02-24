@@ -13,6 +13,7 @@ import { purchaseApi } from 'src/apis/purchase.api'
 import { purchaseStatus } from 'src/constants/purchase'
 import { toast } from 'react-toastify'
 import path from 'src/constants/path'
+import { useTranslation } from 'react-i18next'
 
 const ProductDetail = () => {
   const { nameId } = useParams()
@@ -20,6 +21,7 @@ const ProductDetail = () => {
   const [buyCount, setBuyCount] = useState(1)
   // console.log(id)
   const navigate = useNavigate()
+  const { t } = useTranslation(['product', 'home'])
 
   const queryClient = useQueryClient()
 
@@ -220,7 +222,9 @@ const ProductDetail = () => {
                   onType={handleBycount}
                   className='max-w-[100px] p-2 focus:outline-none'
                 ></QuantityController>
-                <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
+                <div className='ml-6 text-sm text-gray-500'>
+                  {product.quantity} {t('product:available')}
+                </div>
               </div>
               <div className='mt-8 flex items-center'>
                 <button

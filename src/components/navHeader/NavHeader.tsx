@@ -6,12 +6,17 @@ import Popover from '../popover'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { authApi } from 'src/apis/auth.api'
 import { purchaseStatus } from 'src/constants/purchase'
+import { useTranslation } from 'react-i18next'
+import { locales } from 'src/i18n/i18n'
 
 const NavHeader = () => {
   // test error boundary
   // throw new Error('something went wrong!')
+  const { i18n } = useTranslation()
+  const currentLanguage = locales[i18n.language as keyof typeof locales]
 
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useApp()
+  // console.log(currentLanguage)
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const LogoutMutation = useMutation({
@@ -22,6 +27,10 @@ const NavHeader = () => {
       queryClient.removeQueries({ queryKey: ['purchases', { status: purchaseStatus.inCart }] })
     }
   })
+  const changeLanguages = (lng: 'en' | 'vi') => {
+    i18n.changeLanguage(lng)
+  }
+
   return (
     <div className='container flex justify-end gap-4  p-5 text-white'>
       <Popover
@@ -42,7 +51,7 @@ const NavHeader = () => {
               />
               <path d='M1.33398 8H14.6673' stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' />
             </svg>
-            <span>Tiếng Việt</span>
+            <span>{currentLanguage}</span>
             <svg viewBox='0 0 12 12' fill='none' width={12} height={12} color='currentColor'>
               <path
                 fillRule='evenodd'
@@ -56,8 +65,12 @@ const NavHeader = () => {
       >
         <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
           <div className='flex flex-col gap-2 px-3 py-2'>
-            <button className='py-2 px-3 hover:text-primary'>Tiếng Việt</button>
-            <button className='py-2 px-3 hover:text-primary'>English</button>
+            <button className='py-2 px-3 hover:text-primary' onClick={() => changeLanguages('vi')}>
+              Tiếng Việt
+            </button>
+            <button className='py-2 px-3 hover:text-primary' onClick={() => changeLanguages('en')}>
+              English
+            </button>
           </div>
         </div>
       </Popover>

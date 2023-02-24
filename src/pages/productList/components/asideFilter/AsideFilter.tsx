@@ -13,6 +13,7 @@ import { PriceSchema, priceSchema } from 'src/utils/rules'
 import RatingStar from '../productRating'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
 import InputV2 from 'src/components/inputV2'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   queryConfig: QueryConfig
@@ -23,6 +24,7 @@ type formData = NotUndefinedFiled<PriceSchema>
 
 const AsideFilter = ({ queryConfig, categories }: Props) => {
   // console.log(categories)
+  const { t } = useTranslation('home')
   const { category } = queryConfig
   const {
     control,
@@ -93,7 +95,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
             </g>
           </g>
         </svg>
-        <p className={classNames('', { 'text-primary': category === undefined })}>Tất cả danh mục</p>
+        <p className={classNames('', { 'text-primary': category === undefined })}>{t('aside filter.all categories')}</p>
       </Link>
       <ul className='flex flex-col gap-3 py-5 px-2'>
         {categories &&

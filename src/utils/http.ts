@@ -30,11 +30,11 @@ class Http {
       baseURL: config.baseUrl,
       timeout: 10000,
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
         // xet demo để làm chức năng
         //  mình sẽ lấy giá trij mặc định từ serve trả vềd
-        'expire-access-token': 10,
-        'expire-refresh-token': 60 * 60
+        // 'expire-access-token': 10,
+        // 'expire-refresh-token': 60 * 60
       }
     })
     this.instance.interceptors.request.use(

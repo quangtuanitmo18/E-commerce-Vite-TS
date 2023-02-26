@@ -30,6 +30,7 @@ const InputFile = ({ onChange }: Props) => {
         ref={refInputFile}
         onChange={onFileChange}
         onClick={(e) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           ;(e.target as any).value = null
         }}
       />

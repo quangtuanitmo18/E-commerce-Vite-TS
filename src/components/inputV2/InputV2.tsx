@@ -16,8 +16,8 @@ function InputV2<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >(props: InputNumberProps<TFieldValues, TName>) {
-  const { type, onChange, className, classNameInput = '', classNameError = '', value, ...rest } = props
-  const { field, fieldState } = useController(props)
+  const { type, onChange, className, classNameInput = '', value, ...rest } = props
+  const { field } = useController(props)
   const [localValue, setLocalValue] = useState<string>(field.value)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

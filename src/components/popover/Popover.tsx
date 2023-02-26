@@ -1,8 +1,8 @@
 import { ElementType, useRef, useState } from 'react'
 import { arrow, offset, shift, useFloating } from '@floating-ui/react-dom'
-import { FloatingPortal } from '@floating-ui/react'
+import { FloatingPortal, Placement } from '@floating-ui/react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Placement } from '@floating-ui/react'
+
 interface Props {
   className?: string
   children?: React.ReactNode

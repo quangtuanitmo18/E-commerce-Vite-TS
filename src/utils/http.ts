@@ -3,8 +3,8 @@ import { toast } from 'react-toastify'
 import { URL_LOGIN, URL_LOGOUT, URL_REFRESH_TOKEN, URL_REGISTER } from 'src/apis/auth.api'
 import config from 'src/constants/config'
 import { HttpStatusCode } from 'src/constants/httpStatusCode.enum'
-import path from 'src/constants/path'
 import { AuthResponse, RefreshAccessToken } from 'src/types/auth.type'
+import { Config } from 'src/types/config.type'
 import { ErrorResponseApi } from 'src/types/utils.type'
 import {
   clearLS,
@@ -30,11 +30,11 @@ class Http {
       baseURL: config.baseUrl,
       timeout: 10000,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
         // xet demo để làm chức năng
         //  mình sẽ lấy giá trij mặc định từ serve trả vềd
-        // 'expire-access-token': 20,
-        // 'expire-refresh-token': 60 * 60
+        'expire-access-token': 10,
+        'expire-refresh-token': 60 * 60
       }
     })
     this.instance.interceptors.request.use(
@@ -88,7 +88,7 @@ class Http {
         // - ko truyền token
         if (isAxiosUnauthorizedError<ErrorResponseApi<{ name: string; message: string }>>(error)) {
           const config = error.response?.config || {}
-          const { url } = config
+          const url = (config as Config).url
           // console.log(config)
           // Trường hợp token hết hạn và request đó ko phải là của request refresh token
           //  thì mới tiền hành gọi refresh_token
@@ -102,8 +102,9 @@ class Http {
                   }, 10000)
                 })
             return this.refreshTokenRequest.then((access_token) => {
-              if (config.headers) config.headers.authorization = access_token
-              return this.instance(config)
+              const headers = (config as Config).headers
+              if (headers) headers.authorization = access_token
+              return this.instance({ ...config, headers: { ...headers, authorization: access_token } })
             })
           }
           clearLS()

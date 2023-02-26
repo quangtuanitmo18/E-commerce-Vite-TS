@@ -1,5 +1,4 @@
 import { forwardRef, InputHTMLAttributes, useState } from 'react'
-import { UseFormRegister } from 'react-hook-form'
 
 export interface InputNumberProps extends InputHTMLAttributes<HTMLInputElement> {
   wrapperClassName?: string

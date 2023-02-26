@@ -14,7 +14,7 @@ import useSearchProducts from 'src/hooks/useSearchProducts'
 // type FormData = SearchHeaderSchema
 const MAX_PURCHASES = 5
 const Header = () => {
-  const { isAuthenticated, profile } = useApp()
+  const { isAuthenticated } = useApp()
   const { register, onSubmitSearch } = useSearchProducts()
   const navigate = useNavigate()
   // console.log(isAuthenticated)

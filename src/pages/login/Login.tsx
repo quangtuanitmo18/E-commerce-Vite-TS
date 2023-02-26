@@ -10,11 +10,9 @@ import { useNavigate } from 'react-router-dom'
 import Button from 'src/components/button'
 import { setProfileToLS } from 'src/utils/app'
 import { authApi } from 'src/apis/auth.api'
+import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 
-// interface FormData {
-//   email: string
-//   password: string
-// }
 type FormData = LoginSchema
 
 const Login = () => {
@@ -26,6 +24,7 @@ const Login = () => {
     // watch,
     formState: { errors, isValid }
   } = useForm<FormData>({ resolver: yupResolver(loginSchema) })
+  const { t } = useTranslation('login')
 
   const { isAuthenticated, setIsAuthenticated } = useApp()
   const navigate = useNavigate()
@@ -63,6 +62,10 @@ const Login = () => {
 
   return (
     <div className='h-full bg-primary'>
+      <Helmet>
+        <title> {t('login')} | Shopee Clone</title>
+        <meta name='description' content='Đăng nhập vào dự án Shopee Clone' />
+      </Helmet>
       <div className='container py-20'>
         <div className='grid grid-cols-1 lg:grid-cols-5'>
           <div className='rounded bg-white p-5 lg:col-span-2 lg:col-start-4'>

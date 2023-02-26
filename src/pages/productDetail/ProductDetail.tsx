@@ -14,6 +14,8 @@ import { purchaseStatus } from 'src/constants/purchase'
 import { toast } from 'react-toastify'
 import path from 'src/constants/path'
 import { useTranslation } from 'react-i18next'
+import { Helmet } from 'react-helmet-async'
+import { convert } from 'html-to-text'
 
 const ProductDetail = () => {
   const { nameId } = useParams()
@@ -51,14 +53,14 @@ const ProductDetail = () => {
   const next = () => {
     console.log(currentIndexImage[1], (product as Product).images.length)
     if (currentIndexImage[1] < (product as Product).images.length) {
-      console.log('dsadsa')
+      // console.log('dsadsa')
 
       setCurrentIndexImage((prev) => [prev[0] + 1, prev[1] + 1])
     }
   }
   const prev = () => {
     if (currentIndexImage[0] > 0) {
-      console.log('dsadsa')
+      // console.log('dsadsa')
       setCurrentIndexImage((prev) => [prev[0] - 1, prev[1] - 1])
     }
   }
@@ -126,6 +128,17 @@ const ProductDetail = () => {
 
   return (
     <div className='bg-gray-200 py-6'>
+      <Helmet>
+        <title>{product.name} | Shopee Clone</title>
+        <meta
+          name='description'
+          content={convert(product.description, {
+            limits: {
+              maxInputLength: 150
+            }
+          })}
+        />
+      </Helmet>
       <div className='bg-white p-4 shadow'>
         <div className='container'>
           <div className='grid grid-cols-12 gap-9'>

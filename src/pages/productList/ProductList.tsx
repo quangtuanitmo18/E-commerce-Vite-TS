@@ -7,9 +7,12 @@ import { categoryApi } from 'src/apis/category.api'
 import SortProductList from './components/sortProductList'
 import ProductItem from './components/productItem'
 import useQueryConfig from 'src/hooks/useQueryConfig'
+import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 
 const ProductList = () => {
   const { queryConfig, queryParam } = useQueryConfig()
+  const { t } = useTranslation('product')
   const { data } = useQuery({
     queryKey: ['products', queryParam],
     queryFn: () => {
@@ -31,6 +34,10 @@ const ProductList = () => {
 
   return (
     <div className='bg-gray-grayF5'>
+      <Helmet>
+        <title>{t('product list')} | Shopee Clone</title>
+        <meta name='description' content='Trang danh sách sản phẩm của dự án Shopee Clone' />
+      </Helmet>
       <div className='container py-4 '>
         <div className='grid grid-cols-12 gap-4'>
           <div className='col-span-2'>

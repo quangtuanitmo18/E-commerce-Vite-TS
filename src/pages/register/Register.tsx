@@ -14,6 +14,8 @@ import Button from 'src/components/button'
 import path from 'src/constants/path'
 import { setProfileToLS } from 'src/utils/app'
 import { authApi } from 'src/apis/auth.api'
+import { Helmet } from 'react-helmet-async'
+import { useTranslation } from 'react-i18next'
 // interface FormData {
 //   email: string
 //   password: string
@@ -30,6 +32,7 @@ const Register = () => {
     setError,
     formState: { errors, isValid }
   } = useForm<FormData>({ resolver: yupResolver(schema) })
+  const { t } = useTranslation('register')
 
   const { isAuthenticated, setIsAuthenticated } = useApp()
   const navigate = useNavigate()
@@ -68,6 +71,10 @@ const Register = () => {
 
   return (
     <div className='h-full bg-primary'>
+      <Helmet>
+        <title>{t('register')} | Shopee Clone</title>
+        <meta name='description' content='Đăng ký vào dự án Shopee Clone' />
+      </Helmet>
       <div className='container max-w-7xl py-20'>
         <div className='grid grid-cols-1 lg:grid-cols-5'>
           <div className='rounded bg-white p-5 lg:col-span-2 lg:col-start-4'>

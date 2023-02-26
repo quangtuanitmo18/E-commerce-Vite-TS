@@ -30,6 +30,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
     control,
     handleSubmit,
     watch,
+    reset,
     trigger,
     formState: { errors, isValid }
   } = useForm<formData>({
@@ -54,6 +55,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
     }
   })
   const handleDeleteFilter = () => {
+    reset()
     navigate({
       pathname: path.home,
       search: createSearchParams(
@@ -155,7 +157,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
             <form action='' onSubmit={onSubmit}>
               <div className='mt-3 flex h-auto items-center gap-2'>
                 {/*  test thử usecontroller với cách khai báo để gợi ý name hơi phức tạo */}
-                <InputV2
+                {/* <InputV2
                   control={control}
                   type='number'
                   name='price_min'
@@ -163,8 +165,8 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                   onChange={() => {
                     trigger('price_max')
                   }}
-                ></InputV2>
-                {/* <Controller
+                ></InputV2> */}
+                <Controller
                   name='price_min'
                   control={control}
                   render={({ field }) => {
@@ -183,7 +185,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                       />
                     )
                   }}
-                /> */}
+                />
                 <div className='mx-2 shrink-0'>-</div>
                 <Controller
                   name='price_max'

@@ -16,7 +16,7 @@ function InputV2<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >(props: InputNumberProps<TFieldValues, TName>) {
-  const { type, onChange, className, classNameInput = '', classNameError = '', value = '', ...rest } = props
+  const { type, onChange, className, classNameInput = '', classNameError = '', value, ...rest } = props
   const { field, fieldState } = useController(props)
   const [localValue, setLocalValue] = useState<string>(field.value)
 
@@ -40,7 +40,7 @@ function InputV2<
         {...rest}
         {...field}
         onChange={handleChange}
-        value={value || localValue}
+        value={value !== undefined ? value : localValue}
       />
       {/* <div className={`h-4 text-sm text-red-500 ${classNameError}`}>{fieldState.error?.message}</div> */}
     </div>

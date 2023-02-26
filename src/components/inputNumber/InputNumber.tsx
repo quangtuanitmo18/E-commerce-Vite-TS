@@ -11,7 +11,7 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function inpu
   props: InputNumberProps,
   ref
 ) {
-  const { type, wrapperClassName, className, placeholder, errorMessage, onChange, value = '', ...rest } = props
+  const { type, wrapperClassName, className, placeholder, errorMessage, onChange, value, ...rest } = props
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [localState, setLocalState] = useState<string>(value as string)
 
@@ -28,7 +28,7 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function inpu
         className={`w-full rounded border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow ${className}`}
         type={type}
         placeholder={placeholder}
-        value={value || localState}
+        value={value !== undefined ? value : localState}
         {...rest}
         ref={ref}
         onChange={handleChange}

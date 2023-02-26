@@ -1,10 +1,10 @@
 import '../src/styles/index.scss'
 import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import ErrorBoundary from '../src/components/errorBoundary'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppProvider } from '../src/contexts/app.context'
+import { withRouter } from 'storybook-addon-react-router-v6'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -34,17 +34,16 @@ const queryClient = new QueryClient({
 })
 
 export const decorators = [
+  withRouter,
   (Story) => (
-    <BrowserRouter>
-      <HelmetProvider>
-        <QueryClientProvider client={queryClient}>
-          <AppProvider>
-            <ErrorBoundary>
-              <Story></Story>
-            </ErrorBoundary>
-          </AppProvider>
-        </QueryClientProvider>
-      </HelmetProvider>
-    </BrowserRouter>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <AppProvider>
+          <ErrorBoundary>
+            <Story></Story>
+          </ErrorBoundary>
+        </AppProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   )
 ]

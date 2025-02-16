@@ -23,7 +23,6 @@ export default function Cart() {
     queryKey: ['purchases', { status: purchaseStatus.inCart }],
     queryFn: () => purchaseApi.getPurchases({ status: purchaseStatus.inCart })
   })
-  // console.log('dsadas')
   const updatePurchaseMutation = useMutation({
     mutationFn: purchaseApi.updatePurchase,
     onSuccess: () => {
@@ -34,7 +33,6 @@ export default function Cart() {
     mutationFn: purchaseApi.buyProducts,
     onSuccess: (data) => {
       refetch()
-      // console.log(data)
       toast.success(data.data.message)
     }
   })

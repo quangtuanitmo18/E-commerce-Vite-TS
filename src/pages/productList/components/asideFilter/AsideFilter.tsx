@@ -12,7 +12,6 @@ import { NotUndefinedFiled } from 'src/types/utils.type'
 import { PriceSchema, priceSchema } from 'src/utils/rules'
 import RatingStar from '../productRating'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
-import InputV2 from 'src/components/inputV2'
 import { useTranslation } from 'react-i18next'
 
 interface Props {

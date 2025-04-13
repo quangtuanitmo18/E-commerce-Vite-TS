@@ -7,6 +7,7 @@ import CartLayout from './layouts/cartLayout'
 import MainLayout from './layouts/mainLayout'
 import RegisterLayout from './layouts/registerLayout'
 import UserLayout from './pages/user/layouts'
+import { LoadingSpin } from './components/loading'
 
 const Login = lazy(() => import('./pages/login'))
 const Register = lazy(() => import('./pages/register'))
@@ -29,6 +30,14 @@ function RejectedRoute() {
   return !isAuthenticated ? <Outlet /> : <Navigate to={path.home} />
 }
 
+const LoadingFallBack = () => {
+  return (
+    <div className='flex h-screen items-center justify-center'>
+      <LoadingSpin></LoadingSpin>
+    </div>
+  )
+}
+
 const useRouteElement = () => {
   const routeElements = useRoutes([
     {
@@ -39,7 +48,7 @@ const useRouteElement = () => {
           path: path.cart,
           element: (
             <CartLayout>
-              <Suspense fallback={<div>...Loading</div>}>
+              <Suspense fallback={<LoadingFallBack />}>
                 <Cart />
               </Suspense>
             </CartLayout>
@@ -56,7 +65,7 @@ const useRouteElement = () => {
             {
               path: path.profile,
               element: (
-                <Suspense fallback={<div>...Loading</div>}>
+                <Suspense fallback={<LoadingFallBack />}>
                   <Profile />
                 </Suspense>
               )
@@ -64,7 +73,7 @@ const useRouteElement = () => {
             {
               path: path.historyPurchase,
               element: (
-                <Suspense fallback={<div>...Loading</div>}>
+                <Suspense fallback={<LoadingFallBack />}>
                   <HistoryPurchase />
                 </Suspense>
               )
@@ -72,7 +81,7 @@ const useRouteElement = () => {
             {
               path: path.changePassword,
               element: (
-                <Suspense fallback={<div>...Loading</div>}>
+                <Suspense fallback={<LoadingFallBack />}>
                   <ChangePassword />
                 </Suspense>
               )
@@ -89,7 +98,7 @@ const useRouteElement = () => {
           path: path.login,
           element: (
             <RegisterLayout>
-              <Suspense fallback={<div>...Loading</div>}>
+              <Suspense fallback={<LoadingFallBack />}>
                 <Login />
               </Suspense>
             </RegisterLayout>
@@ -99,7 +108,7 @@ const useRouteElement = () => {
           path: path.register,
           element: (
             <RegisterLayout>
-              <Suspense fallback={<div>...Loading</div>}>
+              <Suspense fallback={<LoadingFallBack />}>
                 <Register></Register>
               </Suspense>
             </RegisterLayout>
@@ -112,7 +121,7 @@ const useRouteElement = () => {
       index: true,
       element: (
         <MainLayout>
-          <Suspense fallback={<div>...Loading</div>}>
+          <Suspense fallback={<LoadingFallBack />}>
             <ProductList />
           </Suspense>
         </MainLayout>
@@ -123,7 +132,7 @@ const useRouteElement = () => {
       index: true,
       element: (
         <MainLayout>
-          <Suspense fallback={<div>...Loading</div>}>
+          <Suspense>
             <ProductDetail />
           </Suspense>
         </MainLayout>
@@ -133,7 +142,7 @@ const useRouteElement = () => {
       path: '*',
       element: (
         <MainLayout>
-          <Suspense fallback={<div>...Loading</div>}>
+          <Suspense fallback={<LoadingFallBack />}>
             <NotFound />
           </Suspense>
         </MainLayout>

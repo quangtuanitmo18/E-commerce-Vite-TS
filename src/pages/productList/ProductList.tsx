@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next'
 const ProductList = () => {
   const { queryConfig, queryParam } = useQueryConfig()
   const { t } = useTranslation('product')
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['products', queryParam],
     queryFn: () => {
       return productApi.getproducts(queryConfig as ProductConfig)
@@ -60,6 +60,8 @@ const ProductList = () => {
 
             {data && data?.data.data.products.length > 0 ? (
               <Pagination queryConfig={queryConfig} pageSize={data?.data.data.pagination.page_size}></Pagination>
+            ) : isLoading ? (
+              <span>Loading...</span>
             ) : (
               <span>No Product</span>
             )}

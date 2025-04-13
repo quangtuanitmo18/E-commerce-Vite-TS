@@ -1,14 +1,25 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const path = require('path');
+const path = require('path')
 module.exports = {
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:react-hooks/recommended', 'plugin:import/recommended', 'plugin:import/typescript', 'plugin:jsx-a11y/recommended', 'plugin:@typescript-eslint/recommended', 'eslint-config-prettier', 'prettier', 'plugin:storybook/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
+    'plugin:jsx-a11y/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'eslint-config-prettier',
+    'prettier',
+    'plugin:storybook/recommended'
+  ],
   plugins: ['prettier'],
   settings: {
     react: {
-      // Nói eslint-plugin-react tự động biết version của React.
+      // Tell eslint-plugin-react to automatically detect React version
       version: 'detect'
     },
-    // Nói ESLint cách xử lý các import
+    // Configure how ESLint handles imports
     'import/resolver': {
       node: {
         paths: [path.resolve(__dirname, '')],
@@ -20,21 +31,24 @@ module.exports = {
     node: true
   },
   rules: {
-    // Tắt rule yêu cầu import React trong file jsx
+    // Turn off the rule that requires importing React in jsx files
     'react/react-in-jsx-scope': 'off',
-    // Cảnh báo khi thẻ <a target='_blank'> mà không có rel="noreferrer"
+    // Warn when <a target='_blank'> doesn't have rel="noreferrer"
     'react/jsx-no-target-blank': 'warn',
-    // Tăng cường một số rule prettier (copy từ file .prettierrc qua)
-    'prettier/prettier': ['warn', {
-      arrowParens: 'always',
-      semi: false,
-      trailingComma: 'none',
-      tabWidth: 2,
-      endOfLine: 'auto',
-      useTabs: false,
-      singleQuote: true,
-      printWidth: 120,
-      jsxSingleQuote: true
-    }]
+    // Enhance some prettier rules (copied from .prettierrc)
+    'prettier/prettier': [
+      'warn',
+      {
+        arrowParens: 'always',
+        semi: false,
+        trailingComma: 'none',
+        tabWidth: 2,
+        endOfLine: 'auto',
+        useTabs: false,
+        singleQuote: true,
+        printWidth: 120,
+        jsxSingleQuote: true
+      }
+    ]
   }
-};
+}

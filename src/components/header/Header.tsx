@@ -61,7 +61,7 @@ const Header = () => {
         </div>
         <div className='col-span-9 '>
           <form className='flex rounded-sm bg-white p-1' action='' onSubmit={onSubmitSearch}>
-            <input className='flex-1 outline-none' type='text' placeholder='Tìm kiếm sản phẩm' {...register('name')} />
+            <input className='flex-1 outline-none' type='text' placeholder='Search products' {...register('name')} />
             <button className='flex flex-shrink-0 items-center justify-center rounded-sm  bg-primary py-2 px-6'>
               <Search className='text-white'></Search>
             </button>
@@ -70,7 +70,7 @@ const Header = () => {
         <div className='col-span-1 flex cursor-pointer items-center justify-center'>
           <Popover renderPopover={<Cart className='text-white '></Cart>}>
             <div className='relative max-w-xl rounded-sm border border-gray-200 bg-white p-3 shadow-md'>
-              <p className='text-gray-500'>Sản phẩm mới thêm</p>
+              <p className='text-gray-500'>Recently added products</p>
               <div className='mt-5'>
                 {purchasesIncart?.length ? (
                   purchasesIncart.slice(0, MAX_PURCHASES).map((purchase) => (
@@ -93,7 +93,7 @@ const Header = () => {
                 ) : (
                   <div className='flex h-[300px] w-[300px] items-center justify-center p-2'>
                     <img src={noproduct} alt='no purchase' className='h-24 w-24' />
-                    <div className='mt-3 capitalize'>Chưa có sản phẩm</div>
+                    <div className='mt-3 capitalize'>No products yet</div>
                   </div>
                 )}
               </div>
@@ -101,13 +101,13 @@ const Header = () => {
                 <div className='text-xs capitalize text-gray-500'>
                   {purchasesIncart &&
                     (purchasesIncart.length > MAX_PURCHASES ? purchasesIncart.length - MAX_PURCHASES : '')}
-                  Thêm hàng vào giỏ
+                  more items in cart
                 </div>
                 <button
                   className='rounded-sm bg-primary px-4 py-2 capitalize text-white hover:bg-opacity-90'
                   onClick={() => navigate(path.cart)}
                 >
-                  Xem giỏ hàng
+                  View cart
                 </button>
               </div>
             </div>

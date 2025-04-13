@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { SubmitHandler } from 'react-hook-form/dist/types'
 import { Link, useNavigate } from 'react-router-dom'
 import Input from 'src/components/input'
-import { RegisterSchema, schema } from 'src/utils/rules'
+import { RegisterSchema, registerSchema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import omit from 'lodash/omit'
@@ -31,7 +31,7 @@ const Register = () => {
     getValues,
     setError,
     formState: { errors, isValid }
-  } = useForm<FormData>({ resolver: yupResolver(schema) })
+  } = useForm<FormData>({ resolver: yupResolver(registerSchema) })
   const { t } = useTranslation('register')
 
   const { isAuthenticated, setIsAuthenticated } = useApp()
@@ -40,8 +40,8 @@ const Register = () => {
     mutationFn: (body: Omit<FormData, 'confirm_password'>) => authApi.registerAccount(body)
   })
   const handleRegister: SubmitHandler<FormData> = (data: FormData) => {
+    console.log(data)
     if (isValid) {
-      // console.log(data)
       const body = omit(data, ['confirm_password'])
       registerAccountMutation.mutate(body, {
         onSuccess(data, variables, context) {
@@ -67,18 +67,18 @@ const Register = () => {
       // console.log(body)
     }
   }
-  // console.log(errors)
+  console.log(errors)
 
   return (
     <div className='h-full bg-primary'>
       <Helmet>
         <title>{t('register')} | Shopee Clone</title>
-        <meta name='description' content='Đăng ký vào dự án Shopee Clone' />
+        <meta name='description' content='Register to Shopee Clone project' />
       </Helmet>
       <div className='container max-w-7xl py-20'>
         <div className='grid grid-cols-1 lg:grid-cols-5'>
           <div className='rounded bg-white p-5 lg:col-span-2 lg:col-start-4'>
-            <p className=' text-xl text-black lg:text-2xl'>Đăng Ký</p>
+            <p className=' text-xl text-black lg:text-2xl'>Register</p>
             <form action='' onSubmit={handleSubmit(handleRegister)}>
               <Input
                 type='email'
@@ -111,12 +111,12 @@ const Register = () => {
                 isLoading={registerAccountMutation.isLoading}
                 disabled={registerAccountMutation.isLoading}
               >
-                Đăng Ký
+                Register
               </Button>
               <div className='mt-4 text-center text-sm text-gray-500'>
-                Bạn đã có tài khoản?{' '}
+                Already have an account?{' '}
                 <Link className='text-primary' to={path.login}>
-                  Đăng nhập
+                  Login
                 </Link>
               </div>
             </form>

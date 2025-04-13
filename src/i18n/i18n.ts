@@ -38,9 +38,9 @@ export const defaultNS = 'home'
 // eslint-disable-next-line import/no-named-as-default-member
 i18n.use(initReactI18next).init({
   resources,
-  lng: 'vi',
+  lng: 'en',
   ns: ['home', 'product'],
-  fallbackLng: 'vi',
+  fallbackLng: 'en',
   defaultNS,
   interpolation: {
     escapeValue: false // react already safes from xss

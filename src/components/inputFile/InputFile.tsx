@@ -39,7 +39,7 @@ const InputFile = ({ onChange }: Props) => {
         className='flex h-10 items-center justify-end rounded-sm border bg-white px-6 text-sm text-gray-600 shadow-sm'
         onClick={handleUploadImg}
       >
-        Chọn ảnh
+        Select Image
       </button>
     </>
   )

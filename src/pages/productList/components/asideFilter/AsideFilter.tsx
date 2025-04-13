@@ -148,11 +148,11 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
             />
           </g>
         </svg>
-        Bộ lọc tìm kiếm
+        Search Filters
         {/* price filter */}
         <div className='px-2'>
           <div className='border-b border-solid border-gray-300 py-5 '>
-            <p> Khoảng giá</p>
+            <p>Price Range</p>
             <form action='' onSubmit={onSubmit}>
               <div className='mt-3 flex h-auto items-center gap-2'>
                 {/*  test thử usecontroller với cách khai báo để gợi ý name hơi phức tạo */}
@@ -160,7 +160,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                   control={control}
                   type='number'
                   name='price_min'
-                  placeholder='Từ'
+                  placeholder='From'
                   onChange={() => {
                     trigger('price_max')
                   }}
@@ -173,7 +173,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                       <InputNumber
                         type='text'
                         name='price_min'
-                        placeholder='Từ'
+                        placeholder='From'
                         className='p-1 outline-none'
                         onChange={(e) => {
                           field.onChange(e)
@@ -194,7 +194,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                       <InputNumber
                         type='text'
                         name='price_max'
-                        placeholder='Đến'
+                        placeholder='To'
                         className='p-1 outline-none'
                         onChange={(e) => {
                           field.onChange(e)
@@ -208,16 +208,16 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                 />
               </div>
               <span className='inline-block  text-sm text-primary'>{errors.price_min?.message}</span>
-              <Button className=' mt-2 h-auto rounded-none px-4 py-2 text-sm'>Áp dụng</Button>
+              <Button className=' mt-2 h-auto rounded-none px-4 py-2 text-sm'>Apply</Button>
             </form>
           </div>
           <div className='border-b border-solid border-gray-300 py-5'>
-            <p>Đánh Giá</p>
+            <p>Rating</p>
             <RatingStar queryConfig={queryConfig}></RatingStar>
           </div>
         </div>
         <Button onClick={handleDeleteFilter} className='h-auto rounded-none px-4 py-2 text-sm'>
-          Xóa Tất Cả
+          Clear All
         </Button>
       </div>
     </div>

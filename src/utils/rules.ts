@@ -8,62 +8,62 @@ type Rules = {
 
 // export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
 //   email: {
-//     required: 'Email là bắt buộc',
+//     required: 'Email is required',
 //     maxLength: {
 //       value: 160,
-//       message: 'Độ dài kí tự từ 5-160'
+//       message: 'Character length from 5-160'
 //     },
 //     minLength: {
 //       value: 5,
-//       message: 'Độ dài kí tự từ 5-160'
+//       message: 'Character length from 5-160'
 //     },
 //     pattern: {
 //       value:
 //         /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-//       message: 'Email không đúng định dạng'
+//       message: 'Invalid email format'
 //     }
 //   },
 //   password: {
-//     required: 'Mật khẩu là bắt buộc',
+//     required: 'Password is required',
 //     maxLength: {
 //       value: 160,
-//       message: 'Độ dài kí tự từ 6-160'
+//       message: 'Character length from 6-160'
 //     },
 //     minLength: {
 //       value: 6,
-//       message: 'Độ dài kí tự từ 6-160'
+//       message: 'Character length from 6-160'
 //     },
 //     pattern: {
 //       value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-//       message: 'Mật khẩu không đúng định dạng' //Mật khẩu chứa tối thiểu tám ký tự, ít nhất một chữ hoa, một chữ thường, một số và một ký tự đặc biệt
+//       message: 'Invalid password format' //Password must contain at least eight characters, one uppercase, one lowercase, one number, and one special character
 //     }
 //   },
 //   confirm_passoword: {
-//     required: 'Mật khẩu là bắt buộc',
+//     required: 'Password is required',
 //     maxLength: {
 //       value: 160,
-//       message: 'Độ dài kí tự từ 6-160'
+//       message: 'Character length from 6-160'
 //     },
 //     minLength: {
 //       value: 6,
-//       message: 'Độ dài kí tự từ 6-160'
+//       message: 'Character length from 6-160'
 //     },
 //     pattern: {
 //       value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-//       message: 'Mật khẩu không đúng định dạng'
+//       message: 'Invalid password format'
 //     },
 //     validate:
-//       typeof getValues === 'function' ? (value) => value === getValues('password') || 'Mật khẩu không khớp' : undefined
+//       typeof getValues === 'function' ? (value) => value === getValues('password') || 'Passwords do not match' : undefined
 //   }
 // })
 const handleCheckConfirmPassword = (refString: string) => {
   return yup
     .string()
-    .required('Password là bắt buộc')
-    .min(8, 'Độ dài kí tự từ 8-160')
-    .max(160, 'Độ dài kí tự từ 5-160')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Mật khẩu không đúng định dạng')
-    .oneOf([yup.ref(refString)], 'Nhập lại mật khẩu không khớp')
+    .required('Password is required')
+    .min(8, 'Character length from 8-160')
+    .max(160, 'Character length from 5-160')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Invalid password format')
+    .oneOf([yup.ref(refString)], 'Passwords do not match')
 }
 
 function testPriceMinMax(this: yup.TestContext<AnyObject>) {
@@ -77,39 +77,39 @@ function testPriceMinMax(this: yup.TestContext<AnyObject>) {
 export const schema = yup.object({
   email: yup
     .string()
-    .required('Email là bắt buộc')
-    .min(5, 'Độ dài kí tự từ 5-160')
-    .max(160, 'Độ dài kí tự từ 5-160')
+    .required('Email is required')
+    .min(5, 'Character length from 5-160')
+    .max(160, 'Character length from 5-160')
     .matches(
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
-      'Email không đúng định dạng'
+      'Invalid email format'
     ),
   password: yup
     .string()
-    .required('Password là bắt buộc')
-    .min(8, 'Độ dài kí tự từ 8-160')
-    .max(160, 'Độ dài kí tự từ 5-160')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Mật khẩu không đúng định dạng'),
+    .required('Password is required')
+    .min(8, 'Character length from 8-160')
+    .max(160, 'Character length from 5-160')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Invalid password format'),
   confirm_password: handleCheckConfirmPassword('password'),
 
   price_min: yup.string().test({
     name: 'price-not-allowed',
-    message: 'Giá không phù hợp',
+    message: 'Price is not appropriate',
     test: testPriceMinMax
   }),
   price_max: yup.string().test({
     name: 'price-not-allowed',
-    message: 'Giá không phù hợp',
+    message: 'Price is not appropriate',
     test: testPriceMinMax
   }),
-  name: yup.string().trim().required('Tên sản phẩm là bắt buộc')
+  name: yup.string().trim().required('Product name is required')
 })
 export const userSchema = yup.object({
-  name: yup.string().max(160, 'Độ dài tối đa là 160 ký tự'),
-  phone: yup.string().max(20, 'Độ dài tối đa là 20 ký tự'),
-  address: yup.string().max(160, 'Độ dài tối da là 160 ký tự'),
-  avatar: yup.string().max(1000, 'Độ dài tối đa là 1000 ký tự'),
-  date_of_birth: yup.date().max(new Date(), 'Hãy chọn 1 ngày trong quá khứ'),
+  name: yup.string().max(160, 'Maximum length is 160 characters'),
+  phone: yup.string().max(20, 'Maximum length is 20 characters'),
+  address: yup.string().max(160, 'Maximum length is 160 characters'),
+  avatar: yup.string().max(1000, 'Maximum length is 1000 characters'),
+  date_of_birth: yup.date().max(new Date(), 'Please select a date in the past'),
   password: schema.fields['password'],
   new_password: schema.fields['password'],
   confirm_password: handleCheckConfirmPassword('new_password')

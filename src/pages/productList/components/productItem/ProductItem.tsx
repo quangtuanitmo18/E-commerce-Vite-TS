@@ -25,9 +25,9 @@ const ProductItem = ({ product }: Props) => {
         </div>
         <div className='mb-3 flex items-center gap-2 text-sm'>
           <ProductRating rating={product.rating}></ProductRating>
-          <span className=''>Đã bán {formatNumberToSocialStyle(product.sold)}</span>
+          <span className=''>Sold {formatNumberToSocialStyle(product.sold)}</span>
         </div>
-        <div className='text-sm text-gray-400'>Hà Nội</div>
+        <div className='text-sm text-gray-400'>Ha Noi</div>
       </div>
     </Link>
   )

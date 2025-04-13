@@ -47,7 +47,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
   return (
     <div className='flex items-center  justify-between bg-gray-200 p-3'>
       <div className='flex items-center gap-4 '>
-        <span>Sắp xếp theo</span>
+        <span>Sort by</span>
         <div className='mt-2 flex gap-2'>
           <button
             onClick={() => handleSort(product.sort_by.view)}
@@ -56,7 +56,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
               'bg-white text-black': !isActiveSortBy(product.sort_by.view)
             })}
           >
-            Phổ Biến
+            Popular
           </button>
           <button
             onClick={() => handleSort(product.sort_by.createdAt)}
@@ -65,7 +65,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
               'bg-white text-black': !isActiveSortBy(product.sort_by.createdAt)
             })}
           >
-            Mới Nhất
+            Latest
           </button>
           <button
             onClick={() => handleSort(product.sort_by.sold)}
@@ -74,7 +74,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
               'bg-white text-black': !isActiveSortBy(product.sort_by.sold)
             })}
           >
-            Bán Chạy
+            Best Selling
           </button>
           <select
             name=''
@@ -86,13 +86,13 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
             onChange={(e) => handlePriceOrder(e.target.value as Exclude<ProductConfig['sort_by'], undefined>)}
           >
             <option className='bg-white text-black' value=''>
-              Giá
+              Price
             </option>
             <option className='bg-white text-black' value={product.order.asc}>
-              Từ thấp đến cao
+              Low to High
             </option>
             <option className='bg-white text-black' value={product.order.desc}>
-              Từ cao xuống thâp
+              High to Low
             </option>
           </select>
         </div>

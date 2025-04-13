@@ -11,7 +11,7 @@ const HeaderRegister = () => {
           <Link to={path.home}>
             <Logo></Logo>
           </Link>
-          <p className='ml-5 text-xl lg:text-2xl'> {isRegister ? 'Đăng Ký' : 'Đăng Nhập'} </p>
+          <p className='ml-5 text-xl lg:text-2xl'> {isRegister ? 'Register' : 'Login'} </p>
         </nav>
       </div>
     </header>

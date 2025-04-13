@@ -10,12 +10,12 @@ import { formatCurrency, generateNameId } from 'src/utils/utils'
 import { Helmet } from 'react-helmet-async'
 
 const purchaseTabs = [
-  { status: purchaseStatus.all, name: 'Tất cả' },
-  { status: purchaseStatus.waitForConfirmation, name: 'Chờ xác nhận' },
-  { status: purchaseStatus.waitForGetting, name: 'Chờ lấy hàng' },
-  { status: purchaseStatus.inProgress, name: 'Đang giao' },
-  { status: purchaseStatus.delivered, name: 'Đã giao' },
-  { status: purchaseStatus.cancelled, name: 'Đã hủy' }
+  { status: purchaseStatus.all, name: 'All' },
+  { status: purchaseStatus.waitForConfirmation, name: 'Pending Confirmation' },
+  { status: purchaseStatus.waitForGetting, name: 'Preparing' },
+  { status: purchaseStatus.inProgress, name: 'Shipping' },
+  { status: purchaseStatus.delivered, name: 'Delivered' },
+  { status: purchaseStatus.cancelled, name: 'Cancelled' }
 ]
 
 export default function HistoryPurchase() {
@@ -50,8 +50,8 @@ export default function HistoryPurchase() {
   return (
     <div>
       <Helmet>
-        <title>Lịch sử mua hàng | Shopee Clone</title>
-        <meta name='description' content='Lịch sử mua hàng dự án Shopee Clone' />
+        <title>Purchase History | Shopee Clone</title>
+        <meta name='description' content='Purchase History for Shopee Clone project' />
       </Helmet>
       <div className='overflow-x-auto'>
         <div className='min-w-[700px]'>
@@ -79,7 +79,7 @@ export default function HistoryPurchase() {
                 </Link>
                 <div className='flex justify-end'>
                   <div>
-                    <span>Tổng giá tiền</span>
+                    <span>Total price</span>
                     <span className='text-orange ml-4 text-xl'>
                       ₫{formatCurrency(purchase.product.price * purchase.buy_count)}
                     </span>

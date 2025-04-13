@@ -10,19 +10,19 @@ const listLink = [
     id: 1,
     link: path.profile,
     icon: 'https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4',
-    name: 'Tài khoản của tôi'
+    name: 'My Account'
   },
   {
     id: 2,
     link: path.changePassword,
     icon: 'https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4',
-    name: 'Đổi mật khẩu'
+    name: 'Change Password'
   },
   {
     id: 3,
     link: path.historyPurchase,
     icon: 'https://cf.shopee.vn/file/f0049e9df4e536bc3e7f140d071e9078',
-    name: 'Đơn hàng'
+    name: 'Orders'
   }
 ]
 
@@ -51,7 +51,7 @@ export default function UserSideNav() {
                 fillRule='evenodd'
               />
             </svg>
-            Sửa hồ sơ
+            Edit Profile
           </Link>
         </div>
       </div>

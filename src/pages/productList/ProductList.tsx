@@ -61,7 +61,7 @@ const ProductList = () => {
             {data && data?.data.data.products.length > 0 ? (
               <Pagination queryConfig={queryConfig} pageSize={data?.data.data.pagination.page_size}></Pagination>
             ) : (
-              <span>Không có sản phẩm nào</span>
+              <span>No Product</span>
             )}
           </div>
         </div>

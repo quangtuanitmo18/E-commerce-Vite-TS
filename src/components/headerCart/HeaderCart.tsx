@@ -26,14 +26,14 @@ const HeaderCart = () => {
                 </svg>
               </div>
               <div className='mx-4 h-6 w-[1px] bg-primary md:h-8' />
-              <div className='capitalize text-primary md:text-xl'>Giỏ hàng</div>
+              <div className='capitalize text-primary md:text-xl'>Cart </div>
             </Link>
             <form className='mt-3 md:mt-0 md:w-[50%]' onSubmit={onSubmitSearch}>
               <div className='flex rounded-sm border border-solid border-primary'>
                 <input
                   type='text'
                   className='w-full flex-grow border-none bg-transparent px-3 py-1 text-black outline-none'
-                  placeholder='Free Ship Đơn Từ 0Đ'
+                  placeholder='Search product...'
                   {...register('name')}
                 />
                 <button className='flex-shrink-0  bg-primary py-2 px-8 hover:opacity-90'>

@@ -78,7 +78,7 @@ const RatingStar = ({ queryConfig }: Props) => {
                   </svg>
                 ))}
 
-              {index > 0 && <span className='text-sm'> trở lên</span>}
+              {index > 0 && <span className='text-sm'> and up</span>}
             </div>
           </li>
         ))}

@@ -215,18 +215,18 @@ const ProductDetail = () => {
                 <div className='mx-4 h-4 w-[1px] bg-gray-300'></div>
                 <div>
                   <span>{formatNumberToSocialStyle(product.sold)}</span>
-                  <span className='ml-1 text-gray-500'>Đã bán</span>
+                  <span className='ml-1 text-gray-500'>Sold</span>
                 </div>
               </div>
               <div className='mt-8 flex items-center bg-gray-50 px-5 py-4'>
                 <div className='text-gray-500 line-through'>₫{formatCurrency(product.price_before_discount)}</div>
                 <div className='ml-3 text-3xl font-medium text-primary'>₫{formatCurrency(product.price)}</div>
                 <div className='ml-4 rounded-sm bg-primary px-1 py-[2px] text-xs font-semibold uppercase text-white'>
-                  {rateSale(product.price_before_discount, product.price)} giảm
+                  {rateSale(product.price_before_discount, product.price)} off
                 </div>
               </div>
               <div className='mt-8 flex items-center'>
-                <div className='capitalize text-gray-500'>Số lượng</div>
+                <div className='capitalize text-gray-500'>Quantity</div>
                 <QuantityController
                   max={product.quantity}
                   value={buyCount}
@@ -267,13 +267,13 @@ const ProductDetail = () => {
                       <line fill='none' strokeLinecap='round' strokeMiterlimit={10} x1={9} x2={9} y1='8.5' y2='5.5' />
                     </g>
                   </svg>
-                  Thêm vào giỏ hàng
+                  Add to Cart
                 </button>
                 <button
                   className='fkex ml-4 h-12 min-w-[5rem] items-center justify-center rounded-sm bg-primary px-5 capitalize text-white shadow-sm outline-none hover:bg-primary/90'
                   onClick={buyNow}
                 >
-                  Mua ngay
+                  Buy Now
                 </button>
               </div>
             </div>
@@ -282,7 +282,7 @@ const ProductDetail = () => {
       </div>
       <div className='mt-8 bg-white p-4 shadow'>
         <div className='container'>
-          <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
+          <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Product Description</div>
           <div className='mx-4 mt-12 mb-4 text-sm leading-loose'>
             <div
               dangerouslySetInnerHTML={{
@@ -294,7 +294,7 @@ const ProductDetail = () => {
       </div>
       <div className='bg-white p-4'>
         <div className='container'>
-          <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Sản phẩm liên quan</div>
+          <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Related Products</div>
 
           <div className='mt-8 grid grid-cols-2 gap-2 p-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
             {relatedProducts &&

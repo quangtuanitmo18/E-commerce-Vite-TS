@@ -33,7 +33,7 @@ const NavHeader = () => {
 
   return (
     <div className='container flex justify-end gap-4  p-5 text-white'>
-      <Popover
+      {/* <Popover
         renderPopover={
           <>
             <svg width={16} height={16} viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -66,14 +66,14 @@ const NavHeader = () => {
         <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
           <div className='flex flex-col gap-2 px-3 py-2'>
             <button className='py-2 px-3 hover:text-primary' onClick={() => changeLanguages('vi')}>
-              Tiếng Việt
+              Vietnamese
             </button>
             <button className='py-2 px-3 hover:text-primary' onClick={() => changeLanguages('en')}>
               English
             </button>
           </div>
         </div>
-      </Popover>
+      </Popover> */}
       {isAuthenticated ? (
         <Popover
           renderPopover={
@@ -89,14 +89,14 @@ const NavHeader = () => {
                 Profile
               </button>
               <button className='py-2 px-3 hover:text-primary' onClick={() => LogoutMutation.mutate()}>
-                Đăng Xuất
+                Logout
               </button>
             </div>
           </div>
         </Popover>
       ) : (
         <>
-          <Link to={path.login}>Đăng Nhập </Link> | <Link to={path.register}>Đăng Ký</Link>
+          <Link to={path.login}>Login </Link> | <Link to={path.register}>Register</Link>
         </>
       )}
     </div>

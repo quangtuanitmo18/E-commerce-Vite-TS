@@ -64,12 +64,12 @@ const Login = () => {
     <div className='h-full bg-primary'>
       <Helmet>
         <title> {t('login')} | Shopee Clone</title>
-        <meta name='description' content='Đăng nhập vào dự án Shopee Clone' />
+        <meta name='description' content='Login to Shopee Clone project' />
       </Helmet>
       <div className='container py-20'>
         <div className='grid grid-cols-1 lg:grid-cols-5'>
           <div className='rounded bg-white p-5 lg:col-span-2 lg:col-start-4'>
-            <p className=' text-xl text-black lg:text-2xl'>Đăng Nhập</p>
+            <p className=' text-xl text-black lg:text-2xl'>Login</p>
             <form action='' onSubmit={handleSubmit(handleLogin)}>
               <Input
                 type='email'
@@ -87,11 +87,16 @@ const Login = () => {
                 wrapperClassName='mt-2'
                 name='password'
               ></Input>
-
               <Button type='submit' isLoading={loginMutation.isLoading} disabled={loginMutation.isLoading}>
-                Đăng Nhập
+                Login
               </Button>
             </form>
+            <div className='mt-8 flex items-center justify-center'>
+              <span className='text-gray-400'>Dont have an account?</span>
+              <button onClick={() => navigate('/register')} className='ml-1 text-primary' type='button'>
+                Register
+              </button>
+            </div>
           </div>
         </div>
       </div>

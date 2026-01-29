@@ -7,12 +7,12 @@ interface Props {
 }
 const CartLayout = ({ children }: Props) => {
   return (
-    <>
+    <div className='flex min-h-screen flex-col'>
       {/* <HeaderRegister></HeaderRegister> */}
       <HeaderCart></HeaderCart>
-      {children}
+      <main className='flex-1'>{children}</main>
       <Footer></Footer>
-    </>
+    </div>
   )
 }
 

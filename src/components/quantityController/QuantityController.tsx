@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import InputNumber, { InputNumberProps } from '../inputNumber'
 
 interface Props extends InputNumberProps {
@@ -10,7 +10,7 @@ interface Props extends InputNumberProps {
   onType?: (value: number) => void
 }
 
-const QuantityController = (props: Props) => {
+const QuantityControllerComponent = (props: Props) => {
   const { max, onDecrease, onIncrease, onType, value, onFocusOut, ...rest } = props
   const [localState, setLocalState] = useState<number>(Number(value || 1))
 
@@ -93,5 +93,7 @@ const QuantityController = (props: Props) => {
     </div>
   )
 }
+
+const QuantityController = memo(QuantityControllerComponent)
 
 export default QuantityController

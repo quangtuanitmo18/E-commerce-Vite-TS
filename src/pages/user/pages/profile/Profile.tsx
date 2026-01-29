@@ -1,24 +1,22 @@
 import Input from 'src/components/input'
 import { useForm, Controller } from 'react-hook-form'
 import { userSchema, UserSchema } from 'src/utils/rules'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { userApi } from 'src/apis/user.api'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import InputNumber from 'src/components/inputNumber'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import DateSelect from '../../components/DateSelect'
 import { toast } from 'react-toastify'
 import { setProfileToLS } from 'src/utils/app'
 import { useApp } from 'src/contexts/app.context'
-import userImgDefault from 'src/assets/images/user-default.png'
 import { getAvatarUrl, isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi } from 'src/types/utils.type'
-import config from 'src/constants/config'
 import InputFile from 'src/components/inputFile'
 import Button from 'src/components/button'
 import { Helmet } from 'react-helmet-async'
-import { useTranslation } from 'react-i18next'
+import { LoadingSpin } from 'src/components/loading'
 
 type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' | 'avatar'>
 const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
@@ -27,14 +25,23 @@ type FormDataError = Omit<FormData, 'date_of_birth'> & {
 }
 
 export default function Profile() {
-  const { data: profileData, refetch } = useQuery({
-    queryKey: ['profile'],
-    queryFn: userApi.getProfile
+  const queryClient = useQueryClient()
+  const profileQueryKey = ['profile'] as const
+  const { data: profileData, isLoading } = useQuery({
+    queryKey: profileQueryKey,
+    queryFn: userApi.getProfile,
+    staleTime: 3 * 60 * 1000
   })
-  const { t } = useTranslation('profile')
   const [file, setFile] = useState<File>()
-  const previewImage = useMemo(() => {
-    return file ? URL.createObjectURL(file) : ''
+  const [previewImage, setPreviewImage] = useState('')
+  useEffect(() => {
+    if (!file) {
+      setPreviewImage('')
+      return
+    }
+    const url = URL.createObjectURL(file)
+    setPreviewImage(url)
+    return () => URL.revokeObjectURL(url)
   }, [file])
 
   const { setProfile } = useApp()
@@ -78,7 +85,7 @@ export default function Profile() {
       })
       setProfileToLS(res.data.data)
       setProfile(res.data.data)
-      refetch()
+      queryClient.invalidateQueries({ queryKey: profileQueryKey })
       toast.success(res.data.message)
     } catch (error) {
       if (isAxiosUnprocessableEntityError<ErrorResponseApi<FormDataError>>(error)) {
@@ -109,6 +116,14 @@ export default function Profile() {
       setValue('date_of_birth', profile.date_of_birth ? new Date(profile.date_of_birth) : new Date(1990, 0, 1))
     }
   }, [profile, setValue])
+
+  if (isLoading) {
+    return (
+      <div className='flex h-40 items-center justify-center'>
+        <LoadingSpin className='fill-primary' />
+      </div>
+    )
+  }
 
   if (!profile) return null
 
@@ -185,7 +200,8 @@ export default function Profile() {
                   <img
                     src={previewImage || getAvatarUrl(avatar)}
                     alt='avatar'
-                    className='w-full w-full rounded-full object-cover'
+                    loading='lazy'
+                    className='w-full rounded-full object-cover'
                   />
                 </div>
                 <InputFile onChange={handleFileChange}></InputFile>

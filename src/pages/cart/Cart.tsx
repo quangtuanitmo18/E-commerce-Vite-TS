@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { purchaseApi } from 'src/apis/purchase.api'
 import { purchaseStatus } from 'src/constants/purchase'
@@ -18,29 +18,32 @@ export default function Cart() {
   const { extendedPurchases, setExtendedPurchases } = useApp()
   const location = useLocation()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const purchaseIdFromLocation = location?.state?.purchaseId || null
+  const purchasesQueryKey = ['purchases', { status: purchaseStatus.inCart }] as const
 
-  const { data: purchasesInCartData, refetch } = useQuery({
-    queryKey: ['purchases', { status: purchaseStatus.inCart }],
-    queryFn: () => purchaseApi.getPurchases({ status: purchaseStatus.inCart })
+  const { data: purchasesInCartData } = useQuery({
+    queryKey: purchasesQueryKey,
+    queryFn: () => purchaseApi.getPurchases({ status: purchaseStatus.inCart }),
+    staleTime: 30 * 1000
   })
   const updatePurchaseMutation = useMutation({
     mutationFn: purchaseApi.updatePurchase,
     onSuccess: () => {
-      refetch()
+      queryClient.invalidateQueries({ queryKey: purchasesQueryKey })
     }
   })
   const buyPurchaseMutation = useMutation({
     mutationFn: purchaseApi.buyProducts,
     onSuccess: (data) => {
-      refetch()
+      queryClient.invalidateQueries({ queryKey: purchasesQueryKey })
       toast.success(data.data.message)
     }
   })
   const deletePurchaseMutation = useMutation({
     mutationFn: purchaseApi.deletePurchase,
     onSuccess: () => {
-      refetch()
+      queryClient.invalidateQueries({ queryKey: purchasesQueryKey })
     }
   })
 
@@ -138,7 +141,7 @@ export default function Cart() {
 
   return (
     <div className='container bg-gray-100 py-4'>
-      <div className='min-h-[400px] rounded-sm bg-white p-5 shadow'>
+          <div className='min-h-[400px] rounded-sm bg-white p-5 shadow'>
         {extendedPurchases?.length > 0 ? (
           <>
             <div className='mb-5 grid grid-cols-12 rounded-sm bg-white py-5 px-9 text-sm capitalize text-gray-500 shadow'>
@@ -189,7 +192,7 @@ export default function Cart() {
                               id: purchase.product._id
                             })}`}
                           >
-                            <img alt={purchase.product.name} src={purchase.product.image} />
+                            <img alt={purchase.product.name} src={purchase.product.image} loading='lazy' />
                           </Link>
                           <div className='flex-grow px-2 pt-1 pb-2'>
                             <Link
@@ -257,7 +260,7 @@ export default function Cart() {
           </>
         ) : (
           <div className='flex h-[300px] flex-col items-center justify-center'>
-            <img src={cartempty} alt='empty cart' className='h-24 w-24' />
+            <img src={cartempty} alt='empty cart' loading='lazy' className='h-24 w-24' />
             <div className='mt-5 font-bold text-gray-400'>Your cart is empty</div>
             <div className='mt-5 text-center'>
               <button

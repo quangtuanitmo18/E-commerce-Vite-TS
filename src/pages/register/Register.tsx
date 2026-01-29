@@ -1,11 +1,10 @@
 /* eslint-disable import/no-unresolved */
 import { useForm } from 'react-hook-form'
-import { SubmitHandler } from 'react-hook-form/dist/types'
 import { Link, useNavigate } from 'react-router-dom'
 import Input from 'src/components/input'
 import { RegisterSchema, registerSchema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import omit from 'lodash/omit'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponseApi, SuccessResponseApi } from 'src/types/utils.type'
@@ -16,6 +15,8 @@ import { setProfileToLS } from 'src/utils/app'
 import { authApi } from 'src/apis/auth.api'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
+import { useLoadNamespaces } from 'src/i18n/useLoadNamespaces'
+import { LoadingSpin } from 'src/components/loading'
 // interface FormData {
 //   email: string
 //   password: string
@@ -27,20 +28,18 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    getValues,
     setError,
     formState: { errors, isValid }
   } = useForm<FormData>({ resolver: yupResolver(registerSchema) })
+  const { ready } = useLoadNamespaces(['register'])
   const { t } = useTranslation('register')
 
-  const { isAuthenticated, setIsAuthenticated } = useApp()
+  const { setIsAuthenticated } = useApp()
   const navigate = useNavigate()
   const registerAccountMutation = useMutation({
     mutationFn: (body: Omit<FormData, 'confirm_password'>) => authApi.registerAccount(body)
   })
-  const handleRegister: SubmitHandler<FormData> = (data: FormData) => {
-    console.log(data)
+  const handleRegister = (data: FormData) => {
     if (isValid) {
       const body = omit(data, ['confirm_password'])
       registerAccountMutation.mutate(body, {
@@ -67,7 +66,14 @@ const Register = () => {
       // console.log(body)
     }
   }
-  console.log(errors)
+
+  if (!ready) {
+    return (
+      <div className='flex h-screen items-center justify-center bg-primary'>
+        <LoadingSpin />
+      </div>
+    )
+  }
 
   return (
     <div className='h-full bg-primary'>

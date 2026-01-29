@@ -1,12 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { productApi } from 'src/apis/product.api'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import ProductRating from 'src/components/productRatting'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
 import DOMPurify from 'dompurify'
 import { Product, ProductConfig } from 'src/types/product.type'
-import { v4 as uuidv4 } from 'uuid'
 import ProductItem from '../productList/components/productItem'
 import QuantityController from 'src/components/quantityController'
 import { purchaseApi } from 'src/apis/purchase.api'
@@ -29,7 +28,9 @@ const ProductDetail = () => {
 
   const { data: productDetailData } = useQuery({
     queryKey: ['product', id],
-    queryFn: () => productApi.getProductDetail(id as string)
+    queryFn: () => productApi.getProductDetail(id as string),
+    enabled: Boolean(id),
+    staleTime: 3 * 60 * 1000
   })
   const [currentIndexImage, setCurrentIndexImage] = useState([0, 5])
   const product = productDetailData?.data.data
@@ -45,13 +46,12 @@ const ProductDetail = () => {
     if (product && product.images.length > 0) {
       setActiveImage(product.images[0])
     }
-  }, [product, currentIndexImage])
+  }, [product])
 
   const handleBycount = (value: number) => {
     setBuyCount(value)
   }
   const next = () => {
-    console.log(currentIndexImage[1], (product as Product).images.length)
     if (currentIndexImage[1] < (product as Product).images.length) {
       // console.log('dsadsa')
 
@@ -87,13 +87,17 @@ const ProductDetail = () => {
     imageRef.current?.removeAttribute('style')
   }
   // related products
-  const queryConfig: ProductConfig = { limit: '20', page: '1', category: product?.category._id }
+  const relatedCategoryId = product?.category._id
+  const queryConfig: ProductConfig = useMemo(
+    () => ({ limit: '20', page: '1', category: relatedCategoryId }),
+    [relatedCategoryId]
+  )
   const { data: relatedProducts } = useQuery({
     queryKey: ['products', queryConfig],
     queryFn: () => {
       return productApi.getproducts(queryConfig)
     },
-    enabled: Boolean(product),
+    enabled: Boolean(relatedCategoryId),
     staleTime: 3 * 60 * 1000
   })
   // console.log(relatedProducts)
@@ -176,7 +180,7 @@ const ProductDetail = () => {
                   return (
                     <div
                       className='relative w-full pt-[100%] hover:cursor-pointer'
-                      key={uuidv4()}
+                      key={img}
                       onMouseEnter={() => setActiveImage(img)}
                     >
                       <img

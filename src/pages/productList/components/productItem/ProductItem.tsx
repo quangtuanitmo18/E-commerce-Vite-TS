@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 import ProductRating from 'src/components/productRatting'
 import path from 'src/constants/path'
@@ -7,14 +7,24 @@ import { formatCurrency, formatNumberToSocialStyle, generateNameId } from 'src/u
 
 interface Props {
   product: productType
+  priority?: boolean
 }
 
-const ProductItem = ({ product }: Props) => {
+const ProductItemComponent = ({ product, priority = false }: Props) => {
   return (
     <Link to={`${path.home}${generateNameId({ name: product.name, id: product._id })}`}>
       <div className='rounded-sm bg-white shadow transition-transform duration-100 hover:translate-y-[-0.0625rem] hover:shadow-md'>
         <div className='relative w-full pt-[100%]'>
-          <img src={product.image} alt='' className='absolute top-0 left-0 h-full w-full bg-white object-cover' />
+          <img
+            src={product.image}
+            alt={product.name}
+            width={300}
+            height={300}
+            decoding='async'
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
+            className='absolute top-0 left-0 h-full w-full bg-white object-cover'
+          />
         </div>
       </div>
       <div className='overflow-hidden p-2'>
@@ -32,5 +42,7 @@ const ProductItem = ({ product }: Props) => {
     </Link>
   )
 }
+
+const ProductItem = memo(ProductItemComponent)
 
 export default ProductItem

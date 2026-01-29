@@ -12,6 +12,8 @@ import { setProfileToLS } from 'src/utils/app'
 import { authApi } from 'src/apis/auth.api'
 import { Helmet } from 'react-helmet-async'
 import { useTranslation } from 'react-i18next'
+import { useLoadNamespaces } from 'src/i18n/useLoadNamespaces'
+import { LoadingSpin } from 'src/components/loading'
 
 type FormData = LoginSchema
 
@@ -24,9 +26,10 @@ const Login = () => {
     // watch,
     formState: { errors, isValid }
   } = useForm<FormData>({ resolver: yupResolver(loginSchema) })
+  const { ready } = useLoadNamespaces(['login'])
   const { t } = useTranslation('login')
 
-  const { isAuthenticated, setIsAuthenticated } = useApp()
+  const { setIsAuthenticated } = useApp()
   const navigate = useNavigate()
   const loginMutation = useMutation({
     mutationFn: (body: FormData) => authApi.login(body)
@@ -58,6 +61,14 @@ const Login = () => {
       })
       // console.log(body)
     }
+  }
+
+  if (!ready) {
+    return (
+      <div className='flex h-screen items-center justify-center bg-primary'>
+        <LoadingSpin />
+      </div>
+    )
   }
 
   return (

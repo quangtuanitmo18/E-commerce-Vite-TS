@@ -1,4 +1,3 @@
-import { profile } from 'console'
 import { lazy, Suspense } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import path from './constants/path'
@@ -32,7 +31,7 @@ function RejectedRoute() {
 
 const LoadingFallBack = () => {
   return (
-    <div className='flex h-screen items-center justify-center'>
+    <div className='flex min-h-[60vh] items-center justify-center'>
       <LoadingSpin></LoadingSpin>
     </div>
   )
@@ -132,7 +131,7 @@ const useRouteElement = () => {
       index: true,
       element: (
         <MainLayout>
-          <Suspense>
+          <Suspense fallback={<LoadingFallBack />}>
             <ProductDetail />
           </Suspense>
         </MainLayout>

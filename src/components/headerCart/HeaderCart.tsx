@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 import path from 'src/constants/path'
 import useSearchProducts from 'src/hooks/useSearchProducts'
 import NavHeader from '../navHeader'
 
-const HeaderCart = () => {
+const HeaderCartComponent = () => {
   const { register, onSubmitSearch } = useSearchProducts()
 
   return (
@@ -60,5 +60,7 @@ const HeaderCart = () => {
     </div>
   )
 }
+
+const HeaderCart = memo(HeaderCartComponent)
 
 export default HeaderCart

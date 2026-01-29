@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import { useApp } from 'src/contexts/app.context'
@@ -9,7 +9,7 @@ import { purchaseStatus } from 'src/constants/purchase'
 import { useTranslation } from 'react-i18next'
 import { locales } from 'src/i18n/i18n'
 
-const NavHeader = () => {
+const NavHeaderComponent = () => {
   // test error boundary
   // throw new Error('something went wrong!')
   const { i18n } = useTranslation()
@@ -102,5 +102,7 @@ const NavHeader = () => {
     </div>
   )
 }
+
+const NavHeader = memo(NavHeaderComponent)
 
 export default NavHeader

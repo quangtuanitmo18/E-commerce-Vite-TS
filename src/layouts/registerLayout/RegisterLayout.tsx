@@ -8,11 +8,11 @@ interface Props {
 
 const RegisterLayout = ({ children }: Props) => {
   return (
-    <>
+    <div className='flex min-h-screen flex-col'>
       <HeaderRegister></HeaderRegister>
-      {children}
+      <main className='flex-1'>{children}</main>
       <Footer></Footer>
-    </>
+    </div>
   )
 }
 

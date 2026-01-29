@@ -1,4 +1,6 @@
-const Footer = () => {
+import React, { memo } from 'react'
+
+const FooterComponent = () => {
   return (
     <footer>
       <div className='container grid grid-cols-3 py-12 text-center'>
@@ -25,5 +27,7 @@ const Footer = () => {
     </footer>
   )
 }
+
+const Footer = memo(FooterComponent)
 
 export default Footer

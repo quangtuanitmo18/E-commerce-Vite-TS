@@ -1,3 +1,4 @@
+import React, { memo } from 'react'
 import classNames from 'classnames'
 import omit from 'lodash/omit'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
@@ -11,7 +12,7 @@ interface Props {
   pageSize: number
 }
 
-const SortProductList = ({ queryConfig, pageSize }: Props) => {
+const SortProductListComponent = ({ queryConfig, pageSize }: Props) => {
   const { sort_by = product.sort_by.createdAt } = queryConfig
   const currentPage = Number(queryConfig.page)
   const navigate = useNavigate()
@@ -181,5 +182,7 @@ const SortProductList = ({ queryConfig, pageSize }: Props) => {
     </div>
   )
 }
+
+const SortProductList = memo(SortProductListComponent)
 
 export default SortProductList

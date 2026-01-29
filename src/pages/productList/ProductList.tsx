@@ -25,7 +25,9 @@ const ProductList = () => {
     queryKey: ['categories'],
     queryFn: () => {
       return categoryApi.getCategories()
-    }
+    },
+    staleTime: 30 * 60 * 1000,
+    cacheTime: 60 * 60 * 1000
   })
   // console.log(data)
 
@@ -53,8 +55,8 @@ const ProductList = () => {
 
             <div className='grid grid-cols-2 gap-2 p-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
               {data &&
-                data.data.data.products.map((product) => (
-                  <ProductItem key={product._id} product={product}></ProductItem>
+                data.data.data.products.map((product, index) => (
+                  <ProductItem key={product._id} product={product} priority={index < 4}></ProductItem>
                 ))}
             </div>
 

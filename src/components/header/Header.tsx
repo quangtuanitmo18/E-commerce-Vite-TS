@@ -1,3 +1,4 @@
+import React, { memo } from 'react'
 import { Logo, Search, Cart } from '../icon'
 import Popover from '../popover'
 import { useQuery } from '@tanstack/react-query'
@@ -13,7 +14,7 @@ import useSearchProducts from 'src/hooks/useSearchProducts'
 
 // type FormData = SearchHeaderSchema
 const MAX_PURCHASES = 5
-const Header = () => {
+const HeaderComponent = () => {
   const { isAuthenticated } = useApp()
   const { register, onSubmitSearch } = useSearchProducts()
   const navigate = useNavigate()
@@ -32,7 +33,8 @@ const Header = () => {
   const { data: purchaseIncartData } = useQuery({
     queryKey: ['purchases', { status: purchaseStatus.inCart }],
     queryFn: () => purchaseApi.getPurchases({ status: purchaseStatus.inCart }),
-    enabled: isAuthenticated
+    enabled: isAuthenticated,
+    staleTime: 3 * 60 * 1000
   })
   const purchasesIncart = purchaseIncartData?.data.data
   // const onSubmitSearch = handleSubmit((data) => {
@@ -79,6 +81,7 @@ const Header = () => {
                         <img
                           src={purchase.product.image}
                           alt={purchase.product.name}
+                          loading='lazy'
                           className='h-11 w-11 object-cover'
                         />
                       </div>
@@ -92,7 +95,7 @@ const Header = () => {
                   ))
                 ) : (
                   <div className='flex h-[300px] w-[300px] items-center justify-center p-2'>
-                    <img src={noproduct} alt='no purchase' className='h-24 w-24' />
+                    <img src={noproduct} alt='no purchase' loading='lazy' className='h-24 w-24' />
                     <div className='mt-3 capitalize'>No products yet</div>
                   </div>
                 )}
@@ -117,5 +120,7 @@ const Header = () => {
     </header>
   )
 }
+
+const Header = memo(HeaderComponent)
 
 export default Header

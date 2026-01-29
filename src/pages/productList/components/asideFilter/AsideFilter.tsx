@@ -1,3 +1,4 @@
+import React, { memo } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import classNames from 'classnames'
 import omit from 'lodash/omit'
@@ -21,7 +22,7 @@ interface Props {
 type formData = NotUndefinedFiled<PriceSchema>
 //  de loai bo cai undefind nay thi can
 
-const AsideFilter = ({ queryConfig, categories }: Props) => {
+const AsideFilterComponent = ({ queryConfig, categories }: Props) => {
   // console.log(categories)
   const { t } = useTranslation('home')
   const { category } = queryConfig
@@ -223,5 +224,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
     </div>
   )
 }
+
+const AsideFilter = memo(AsideFilterComponent)
 
 export default AsideFilter

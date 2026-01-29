@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { AppProvider } from './contexts/app.context'
 import ErrorBoundary from './components/errorBoundary'
 import 'src/i18n/i18n'
-import { Helmet, HelmetProvider } from 'react-helmet-async'
+import { HelmetProvider } from 'react-helmet-async'
 
 const queryClient = new QueryClient({
   defaultOptions: {
